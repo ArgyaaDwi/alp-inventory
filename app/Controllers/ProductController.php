@@ -16,17 +16,19 @@ class ProductController extends ResourceController
      */
     protected $kategoriModel;
     protected $productModel;
-    public function __construct(){
+    public function __construct()
+    {
         $this->productModel = new ProductModel();
         $this->kategoriModel = new CategoryModel();
     }
-     public function index()
+    public function index()
     {
-        $product = $this->productModel->findAll();
+        $products = $this->productModel->getProducts();
         return view('pages/product', [
-            'product' => $product
+            'products' => $products
         ]);
     }
+
 
     /**
      * Return the properties of a resource object.
@@ -35,6 +37,13 @@ class ProductController extends ResourceController
      *
      * @return ResponseInterface
      */
+    public function addProduct(){
+        $products = $this->productModel->getProducts();
+
+        return view('pages/product/add_product', [
+            'products' => $products
+        ]);
+    }
     public function show($id = null)
     {
         //

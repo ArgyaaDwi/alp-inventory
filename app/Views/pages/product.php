@@ -23,7 +23,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Title</h3>
+            <a href=" <?= base_url() ?>product/create" class="btn btn-primary">Tambah</a>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                     <i class="fas fa-minus"></i>
@@ -49,7 +49,7 @@
                 </thead>
                 <tbody>
                     <?php $no = 1; ?>
-                    <?php foreach ($product as $p) : ?>
+                    <?php foreach ($products as $p) : ?>
                         <tr>
                             <td><?= $no++; ?></td>
                             <td><?= $p['product_name']; ?></td>
@@ -58,7 +58,7 @@
                             <td>
                                 <img src="/images/<?= $p['product_image']; ?>" width="50">
                             </td>
-                            <td><?= $p['id_category']; ?></td>
+                            <td><?= $p['category_name']; ?></td>
                             <td><?= $p['stock']; ?></td>
                             <td><button type="button" class="btn btn-block btn-outline-info btn-sm">Info</button> </td>
                         </tr>

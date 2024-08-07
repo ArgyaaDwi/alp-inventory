@@ -19,7 +19,6 @@ class ProductSeeder extends Seeder
                 'id_category' => $faker->numberBetween(1, 9),
                 'stock' => $faker->numberBetween(1, 35),
                 'created_at' => \CodeIgniter\I18n\Time::now(),
-
             ];
             $this->db->table('products')->insert($data);
     }

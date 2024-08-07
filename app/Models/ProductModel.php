@@ -11,4 +11,10 @@ class ProductModel extends Model
     protected $allowedFields    = ['product_name', 'brand_name', 'description','price','product_image', 'id_category', 'stock'];
     protected $useTimestamps = true;
     protected $useSoftDeletes   = false;
+    public function getProducts()
+    {
+        return $this->select('products.*, categories.category_name')
+                    ->join('categories', 'products.id_category = categories.id')
+                    ->findAll();
+    }
 }
