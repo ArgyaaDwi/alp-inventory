@@ -6,7 +6,13 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'MainController::index');
+//Routes for Category
 $routes->get('/category', 'CategoryController::index');
+$routes->get('/category/create', 'CategoryController::addCategory');
+$routes->post('/category/save', 'CategoryController::saveCategory');
+$routes->get('/category/edit', 'CategoryController::editCategory');
+
+//Routes for Product
 $routes->get('/product', 'ProductController::index');
 $routes->get('/product/create', 'ProductController::addProduct');
 $routes->get('/testingbro', 'MainController::tes');

@@ -9,8 +9,7 @@ class CategoryModel extends Model
     protected $table            = 'categories';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    
-    
-    protected $allowedFields    = ['category_name', ];
-    
+
+
+    protected $allowedFields    = ['category_name',];
 }

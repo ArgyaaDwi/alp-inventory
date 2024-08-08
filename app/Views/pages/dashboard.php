@@ -9,7 +9,9 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">
+                            <i class="fa-solid fa-house"></i>
+                        </a></li>
                 </ol>
             </div>
         </div>
@@ -27,14 +29,14 @@
             <!-- small card -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>11</h3>
+                    <h3><?= $categoryCount; ?></h3>
 
                     <p>Kategori</p>
                 </div>
                 <div class="icon">
                     <i class="nav-icon fas fa-list"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="<?= base_url() ?>category" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -44,7 +46,7 @@
             <!-- small card -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>79<sup style="font-size: 20px"></sup></h3>
+                    <h3><?= $productCount; ?><sup style="font-size: 20px"></sup></h3>
 
                     <p>Produk</p>
                 </div>
@@ -52,7 +54,7 @@
                     <i class="nav-icon fas fa-ellipsis-h"></i>
 
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="<?= base_url() ?>product" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -123,7 +125,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no = 1;?>
+                    <?php $no = 1; ?>
                     <tr>
                         <td><?= $no++; ?></td>
                         <td>Samsung</td>

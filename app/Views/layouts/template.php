@@ -1,23 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">ro
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ALP Inventory</title>
-    <link rel="icon" type="image/jpg" href="images/logoalp.jpg">    
+    <link rel="icon" type="image/jpg" href="images/logoalp.jpg">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesom -->
     <link rel="stylesheet" href="<?= base_url() ?>/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
+    <link rel="stylesheet" href="<?= base_url() ?>/DataTables/dataTables.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/DataTables/dataTables.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="//cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css"> -->
 </head>
 <style>
     a {
         text-decoration: none;
     }
+
+    table.dataTable thead th {
+
+        background-color: #3498DB;
+
+        /* Change header background color */
+        color: white;
+
+    }
+
+    table.dataTable tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+        /* Change odd row background color */
+    }
+
+    table.dataTable tbody tr:nth-child(even) {
+        background-color: #ffffff;
+        /* Change even row background color */
+    }
+
+    table.dataTable tbody tr:hover {
+        background-color: #d1ecf1;
+        /* Change hover row background color */
+    }
+
+
+
+
+    /*  */
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -37,32 +72,31 @@
                     <a href="#" class="nav-link">Contact</a>
                 </li> -->
             </ul>
-
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                        <i class="fas fa-search"></i>
+                <li class="nav-item dropdown user-menu">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        <img src="<?= base_url() ?>/images/user.jpg" class="user-image img-circle elevation-2" alt="User Image">
+                        <span class="d-none d-md-inline">Argya Dwi</span>
                     </a>
-                    <div class="navbar-search-block">
-                        <form class="form-inline">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <!-- User image -->
+                        <li class="user-header bg-primary">
+                            <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
+                            <p>
+                                Argya Dwi
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <!-- Menu Body -->
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <a href="#" class="btn btn-info btn-flat"><span style="color: white;">Profile</span></a>
+                            <a href="#" class="btn btn-outline-danger btn-flat float-right"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                        </li>
+                    </ul>
                 </li>
-
-
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
@@ -137,28 +171,13 @@
 
 
                         <li class="nav-header">Kelola</li>
+
                         <li class="nav-item">
                             <a href="<?= base_url() ?>category" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
-                                <p>
-                                    Kategori
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
+
+                                <p>Kategori</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="../layout/top-nav.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>CCTV</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/top-nav-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Printer</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url() ?>product" class="nav-link">
@@ -177,7 +196,6 @@
                                         <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
                                     </svg>
                                 </i>
-                                <i class="fa-solid fa-arrow-right-long"></i>
 
                                 <p>Barang Masuk</p>
                             </a>
@@ -190,7 +208,6 @@
                                         <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
                                     </svg>
                                 </i>
-                                <i class="fa-solid fa-arrow-right-long"></i>
 
                                 <p>Barang Keluar</p>
                             </a>
@@ -234,17 +251,29 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- jQuery -->
     <script src="<?= base_url() ?>/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="<?= base_url() ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="<?= base_url() ?>/datatables/dataTables.bootstrap4.js"></script> -->
+    <!-- <script src="<?= base_url() ?>/datatables/dataTables.bootstrap4.min.js"></script> -->
+    <script src="<?= base_url() ?>/DataTables/dataTables.js"></script>
+    <script src="<?= base_url() ?>/DataTables/dataTables.min.js"></script>
+    <!-- <script src="<?= base_url() ?>/datatables/jquery.dataTables.min.js"></script> -->
     <!-- AdminLTE App -->
     <script src="<?= base_url() ?>/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="<?= base_url() ?>/dist/js/demo.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <!-- <script src="//cdn.datatables.net/2.1.3/js/dataTables.min.js"></script> -->
+    <script>
+        let table = new DataTable('#myTable');
+    </script>
+    <script src="https://kit.fontawesome.com/ba7a415507.js" crossorigin="anonymous"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 </body>
 
 </html>

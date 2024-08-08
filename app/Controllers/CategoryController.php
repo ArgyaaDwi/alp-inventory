@@ -21,8 +21,10 @@ class CategoryController extends ResourceController
     public function index()
     {
         $category = $this->kategoriModel->findAll();
+
         return view('pages/category', [
-            'category' => $category
+            'category' => $category,
+
         ]);
     }
 
@@ -37,7 +39,23 @@ class CategoryController extends ResourceController
     {
         //
     }
+    public function addCategory()
+    {
 
+        return view('pages/category/add_category');
+    }
+    public function saveCategory()
+    {
+        $this->kategoriModel->save([
+            'category_name' => $this->request->getVar('category_name'),
+
+        ]);
+        return redirect()->to('/category');
+    }
+    public function editCategory()
+    {
+        return view('pages/category/edit_category');
+    }
     /**
      * Return a new resource object, with default properties.
      *

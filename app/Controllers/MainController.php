@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\KomikModel;
+use App\Models\CategoryModel;
+use App\Models\ProductModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -14,15 +16,16 @@ class MainController extends ResourceController
      * @return ResponseInterface
      */
     protected $komikModel;
+    protected $kategoriModel;
+    protected $productModel;
     public function __construct()
     {
         $this->komikModel = new KomikModel();
+        $this->kategoriModel = new CategoryModel();
+        $this->productModel = new ProductModel();
     }
     public function tes()
     {
-
-
-
         $komik = $this->komikModel->getKomik();
         return view('pages/tes', [
             'komik' => $komik
@@ -30,7 +33,12 @@ class MainController extends ResourceController
     }
     public function index()
     {
-        return view('pages/dashboard');
+        $categoryCount = $this->kategoriModel->countAllResults();
+        $productCount = $this->productModel->countAllResults();
+        return view('pages/dashboard', [
+            'categoryCount' => $categoryCount,
+            'productCount' => $productCount
+        ]);
     }
     public function detailKomik($slug)
     {
