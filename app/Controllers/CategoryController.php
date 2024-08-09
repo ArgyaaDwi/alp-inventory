@@ -8,11 +8,6 @@ use App\Models\CategoryModel;
 
 class CategoryController extends ResourceController
 {
-    /**
-     * Return an array of resource objects, themselves in array format.
-     *
-     * @return ResponseInterface
-     */
     protected $kategoriModel;
     public function __construct()
     {
@@ -27,18 +22,6 @@ class CategoryController extends ResourceController
 
         ]);
     }
-
-    /**
-     * Return the properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function show($id = null)
-    {
-        //
-    }
     public function addCategory()
     {
 
@@ -46,69 +29,45 @@ class CategoryController extends ResourceController
     }
     public function saveCategory()
     {
+
+        $categoryName = $this->request->getVar('category_name');
         $this->kategoriModel->save([
             'category_name' => $this->request->getVar('category_name'),
 
         ]);
+        session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$categoryName}</strong> berhasil ditambahkan!");
         return redirect()->to('/category');
     }
-    public function editCategory()
+    public function editCategory($id)
     {
-        return view('pages/category/edit_category');
+        $categoryID =  $this->kategoriModel->find($id);
+        return view('pages/category/edit_category', [
+            'category' => $categoryID,
+        ]);
     }
-    /**
-     * Return a new resource object, with default properties.
-     *
-     * @return ResponseInterface
-     */
-    public function new()
+    public function updateCategory($id)
     {
-        //
+
+
+        $this->kategoriModel->update($id, [
+            'category_name' => $this->request->getVar('category_name'),
+        ]);
+
+        session()->setFlashdata('success', "Data berhasil diubah!");
+        return redirect()->to('/category');
     }
 
-    /**
-     * Create a new resource object, from "posted" parameters.
-     *
-     * @return ResponseInterface
-     */
-    public function create()
+    public function deleteCategory($id)
     {
-        //
-    }
+        $category = $this->kategoriModel->find($id);
+        if ($category) {
+            $categoryName = $category['category_name'];
+            $this->kategoriModel->delete($id);
+            session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$categoryName}</strong> berhasil dihapus!");
+        } else {
+            session()->setFlashdata('error', "Kategori tidak ditemukan.");
+        }
 
-    /**
-     * Return the editable properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function update($id = null)
-    {
-        //
-    }
-
-    /**
-     * Delete the designated resource object from the model.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function delete($id = null)
-    {
-        //
+        return redirect()->to('/category');
     }
 }

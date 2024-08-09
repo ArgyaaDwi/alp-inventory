@@ -39,6 +39,8 @@
                         <input type="text" class="form-control" id="category_name" name="category_name" autofocus>
                     </div>
                 </div>
+                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
+
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>
@@ -48,7 +50,7 @@
         </div>
         <!-- /.card-footer-->
     </div>
-    <!-- /.card --> 
+    <!-- /.card -->
 
 </section>
 <?= $this->endSection() ?>

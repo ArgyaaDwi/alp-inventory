@@ -10,7 +10,10 @@ $routes->get('/', 'MainController::index');
 $routes->get('/category', 'CategoryController::index');
 $routes->get('/category/create', 'CategoryController::addCategory');
 $routes->post('/category/save', 'CategoryController::saveCategory');
-$routes->get('/category/edit', 'CategoryController::editCategory');
+$routes->get('/category/edit/(:num)', 'CategoryController::editCategory/$1');
+$routes->post('/category/update/(:num)', 'CategoryController::updateCategory/$1');
+$routes->delete('/category/delete/(:num)', 'CategoryController::deleteCategory/$1');
+
 
 //Routes for Product
 $routes->get('/product', 'ProductController::index');

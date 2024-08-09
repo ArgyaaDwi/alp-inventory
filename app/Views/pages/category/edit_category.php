@@ -29,14 +29,15 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/category/save" method="POST">
+            <form action="/category/update/<?= $category['id']; ?>" method="POST">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
                     <label for="category_name" class="col-sm-2 col-form-label">Nama Kategori</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="category_name" name="category_name" autofocus>
+                        <input type="text" class="form-control" id="category_name" name="category_name" value="<?= $category['category_name']; ?>">
                     </div>
                 </div>
+                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>
@@ -46,7 +47,7 @@
         </div>
         <!-- /.card-footer-->
     </div>
-    <!-- /.card --> 
+    <!-- /.card -->
 
 </section>
 <?= $this->endSection() ?>

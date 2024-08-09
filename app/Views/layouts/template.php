@@ -24,35 +24,23 @@
     a {
         text-decoration: none;
     }
-
+    table.data
     table.dataTable thead th {
-
-        background-color: #3498DB;
-
-        /* Change header background color */
-        color: white;
-
+        background-color:#FFF455;
+        color: black;
     }
 
     table.dataTable tbody tr:nth-child(odd) {
         background-color: #f9f9f9;
-        /* Change odd row background color */
     }
 
     table.dataTable tbody tr:nth-child(even) {
         background-color: #ffffff;
-        /* Change even row background color */
     }
 
     table.dataTable tbody tr:hover {
         background-color: #d1ecf1;
-        /* Change hover row background color */
     }
-
-
-
-
-    /*  */
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -82,7 +70,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
-                        <li class="user-header bg-primary">
+                        <li class="user-header">
                             <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
                             <p>
                                 Argya Dwi
@@ -92,8 +80,8 @@
                         <!-- Menu Body -->
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="#" class="btn btn-info btn-flat"><span style="color: white;">Profile</span></a>
-                            <a href="#" class="btn btn-outline-danger btn-flat float-right"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                            <a href="#" class="btn btn-outline-info  rounded btn-flat ">Profil</a>
+                            <a href="#" class="btn btn-danger rounded btn-flat float-right"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                         </li>
                     </ul>
                 </li>
