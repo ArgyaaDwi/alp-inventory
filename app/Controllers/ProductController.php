@@ -9,99 +9,82 @@ use App\Models\ProductModel;
 
 class ProductController extends ResourceController
 {
-    /**
-     * Return an array of resource objects, themselves in array format.
-     *
-     * @return ResponseInterface
-     */
+    // properti untuk menyimpan instance dari model CategoryModel dan ProductModel.
     protected $kategoriModel;
     protected $productModel;
+
+    // Method yang akan otomatis dijalankan ketika sebuah instance dari controller ini dibuat.
     public function __construct()
     {
         $this->productModel = new ProductModel();
         $this->kategoriModel = new CategoryModel();
     }
+    // Method index ini akan menampilkan semua data product dari database.
     public function index()
     {
-        $products = $this->productModel->getProducts();
-        return view('pages/product', [
-            'products' => $products
-        ]);
+        $locale = 'id_ID'; // Locale Bahasa Indonesia
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal); // Format tanggal
+
+        $data = [
+            'currentDate' => $currentDate,
+            'products' => $this->productModel->getProducts()
+        ];
+        // $products = $this->productModel->getProducts();
+        return view('pages/product', $data);
     }
 
+    // Method addProduct ini akan menampilkan halaman tambah produk
+    public function addProduct()
+    {
+        $categories = $this->kategoriModel->findAll();
 
-    /**
-     * Return the properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function addProduct(){
-        $products = $this->productModel->getProducts();
+        // $products = $this->productModel->getProducts();
 
         return view('pages/product/add_product', [
-            'products' => $products
+            'categories' => $categories
         ]);
     }
-    public function show($id = null)
-    {
-        //
-    }
 
-    /**
-     * Return a new resource object, with default properties.
-     *
-     * @return ResponseInterface
-     */
-    public function new()
+    public function saveProduct()
     {
-        //
-    }
+        if (!$this->validate([
+            'product_name' => 'required',
+            'brand_name' => 'required',
+            'description' => 'required',
+            'price' => 'required|decimal',
+            'id_category' => 'required',
+            'stock' => 'required|integer',
+            'product_image' => [
+                'rules' => 'uploaded[product_image]|max_size[product_image,1024]|is_image[product_image]|mime_in[product_image,image/jpg,image/jpeg,image/png]',
+                'label' => 'Product Image'
+            ]
+        ])) {
+            dd($this->validator->getErrors()); // Debugging validasi
 
-    /**
-     * Create a new resource object, from "posted" parameters.
-     *
-     * @return ResponseInterface
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Return the editable properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function update($id = null)
-    {
-        //
-    }
-
-    /**
-     * Delete the designated resource object from the model.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function delete($id = null)
-    {
-        //
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        // Proses upload gambar
+        $image = $this->request->getFile('product_image');
+        $imageName = $image->getRandomName();
+        $image->move(WRITEPATH . 'uploads', $imageName);
+        // Simpan data produk ke database
+        $this->productModel->save([
+            'product_name' => $this->request->getPost('product_name'),
+            'brand_name' => $this->request->getPost('brand_name'),
+            'description' => $this->request->getPost('description'),
+            'price' => $this->request->getPost('price'),
+            'id_category' => $this->request->getPost('id_category'),
+            'stock' => $this->request->getPost('stock'),
+            'product_image' => $imageName
+        ]);
+        return redirect()->to('/product');
     }
 }

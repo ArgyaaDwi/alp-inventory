@@ -8,25 +8,45 @@ use App\Models\CategoryModel;
 
 class CategoryController extends ResourceController
 {
+    // properti untuk menyimpan instance dari model CategoryModel dan ProductModel.
     protected $kategoriModel;
+
+    // Method yang akan otomatis dijalankan ketika sebuah instance dari controller ini dibuat.
+
     public function __construct()
     {
         $this->kategoriModel = new CategoryModel();
     }
+    // Method index ini akan menampilkan semua data category dari database.
+
     public function index()
     {
-        $category = $this->kategoriModel->findAll();
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
 
-        return view('pages/category', [
-            'category' => $category,
+        $data = [
+            'currentDate' => $currentDate,
+            'category' => $this->kategoriModel->findAll(),
+        ];
+        // $category = $this->kategoriModel->findAll();
 
-        ]);
+        return view('pages/category', $data);
     }
+    // Method addProduct ini akan menampilkan halaman tambah category
+
     public function addCategory()
     {
 
         return view('pages/category/add_category');
     }
+    // Method saveCategory ini akan menyimpan data category baru
     public function saveCategory()
     {
 
@@ -47,8 +67,6 @@ class CategoryController extends ResourceController
     }
     public function updateCategory($id)
     {
-
-
         $this->kategoriModel->update($id, [
             'category_name' => $this->request->getVar('category_name'),
         ]);

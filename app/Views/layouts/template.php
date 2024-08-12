@@ -24,9 +24,9 @@
     a {
         text-decoration: none;
     }
-    table.data
-    table.dataTable thead th {
-        background-color:#FFF455;
+
+    table.data table.dataTable thead th {
+        background-color: #FFF455;
         color: black;
     }
 
@@ -53,12 +53,13 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <!-- <li class="nav-item d-none d-sm-inline-block">
-                    <a href="<?= base_url() ?>/index3.html" class="nav-link">Home</a>
-                </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li> -->
+                    <p class="nav-link">
+                        <strong>
+                            <?= $currentDate ?? 'Unknown Day'; ?>
+                        </strong>
+                    </p>
+                </li>
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">

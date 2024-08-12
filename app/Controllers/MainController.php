@@ -33,13 +33,27 @@ class MainController extends ResourceController
     }
     public function index()
     {
-        $categoryCount = $this->kategoriModel->countAllResults();
-        $productCount = $this->productModel->countAllResults();
-        return view('pages/dashboard', [
-            'categoryCount' => $categoryCount,
-            'productCount' => $productCount
-        ]);
+        $locale = 'id_ID'; // Locale Bahasa Indonesia
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal); // Format tanggal
+
+        $data = [
+            'currentDate' => $currentDate,
+            'categoryCount' => $this->kategoriModel->countAllResults(),
+            'productCount' => $this->productModel->countAllResults()
+        ];
+
+        return view('pages/dashboard', $data);
     }
+
+
     public function detailKomik($slug)
     {
         $komik = $this->komikModel->getKomik($slug);

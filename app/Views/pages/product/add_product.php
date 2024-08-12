@@ -31,34 +31,34 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/testingbro/save" method="POST">
+            <form action="/product/save" method="POST">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
-                    <label for="judul" class="col-sm-2 col-form-label">Nama Barang</label>
+                    <label for="product_name" class="col-sm-2 col-form-label">Nama Barang</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="product_name" name="product_name" autofocus>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="penulis" class="col-sm-2 col-form-label">Brand</label>
+                    <label for="brand_name" class="col-sm-2 col-form-label">Brand</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="brand_name" name="brand_name" autofocus>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="penulis" class="col-sm-2 col-form-label">Deskripsi</label>
+                    <label for="description" class="col-sm-2 col-form-label">Deskripsi</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" id="description" name="description"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="penerbit" class="col-sm-2 col-form-label">Harga</label>
+                    <label for="price" class="col-sm-2 col-form-label">Harga</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="price" name="price">
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="sampul" class="col-sm-2 col-form-label">Gambar</label>
+                    <label for="product_image" class="col-sm-2 col-form-label">Gambar</label>
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="product_image" name="product_image">
                     </div>
@@ -66,12 +66,16 @@
                 <div class="row mb-3">
                     <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
                     <div class="col-sm-10">
-                        <select class="form-control" id="kategori" name="kategori">
-                            <?php foreach ($products as $c) : ?>
-                                <option value="<?= $c['id']; ?>">
-                                    <?= esc($c['category_name']); ?>
-                                </option>
-                            <?php endforeach; ?>
+                        <select class="form-control" id="kategori" name="id_category">
+                            <?php if (!empty($categories)) : ?>
+                                <?php foreach ($categories as $c) : ?>
+                                    <option value="<?= $c['id']; ?>">
+                                        <?= esc($c['category_name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <option value="">Kategori tidak tersedia</option>
+                            <?php endif; ?>
                         </select>
                     </div>
                 </div>

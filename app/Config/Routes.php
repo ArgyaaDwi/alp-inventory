@@ -14,10 +14,10 @@ $routes->get('/category/edit/(:num)', 'CategoryController::editCategory/$1');
 $routes->post('/category/update/(:num)', 'CategoryController::updateCategory/$1');
 $routes->delete('/category/delete/(:num)', 'CategoryController::deleteCategory/$1');
 
-
 //Routes for Product
 $routes->get('/product', 'ProductController::index');
 $routes->get('/product/create', 'ProductController::addProduct');
+$routes->post('/product/save', 'ProductController::saveProduct');
 $routes->get('/testingbro', 'MainController::tes');
 $routes->get('/testingbro/create', 'MainController::tambahKomik');
 $routes->post('/testingbro/save', 'MainController::save');
