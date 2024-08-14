@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/product/save" method="POST">
+            <form action="/product/save" method="POST" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
                     <label for="product_name" class="col-sm-2 col-form-label">Nama Barang</label>
@@ -39,6 +39,26 @@
                         <input type="text" class="form-control" id="product_name" name="product_name" autofocus>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <div>
+                        <input type="radio" id="good" name="status" value="good" checked>
+                        <label for="good">Bagus</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="partially_damaged" name="status" value="partially_damaged">
+                        <label for="partially_damaged">Rusak Sebagian</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="damaged" name="status" value="damaged">
+                        <label for="damaged">Rusak</label>
+                    </div>
+                </div>
+                <div class="form-group" id="damage-description-container" style="display: none;">
+                    <label for="damage_description">Deskripsi Kerusakan:</label>
+                    <textarea id="damage_description" name="damage_description" class="form-control"></textarea>
+                </div>
+
                 <div class="row mb-3">
                     <label for="brand_name" class="col-sm-2 col-form-label">Brand</label>
                     <div class="col-sm-10">
@@ -97,6 +117,16 @@
         <!-- /.card-footer-->
     </div>
     <!-- /.card -->
-
+    <script>
+        document.querySelectorAll('input[name="status"]').forEach((elem) => {
+            elem.addEventListener('change', (event) => {
+                if (event.target.value === 'partially_damaged') {
+                    document.getElementById('damage-description-container').style.display = 'block';
+                } else {
+                    document.getElementById('damage-description-container').style.display = 'none';
+                }
+            });
+        });
+    </script>
 </section>
 <?= $this->endSection() ?>

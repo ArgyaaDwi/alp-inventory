@@ -1,4 +1,4 @@
-    <?= $this-> extend('layouts/template'); ?>
+    <?= $this->extend('layouts/template'); ?>
     <?= $this->section('content'); ?>
 
     <section class="content-header">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="myTable" class="display">
+                <table id="myTable" class="stripe responsive">
                     <thead>
                         <tr>
                             <th>No.</th>

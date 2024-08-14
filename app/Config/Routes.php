@@ -18,6 +18,12 @@ $routes->delete('/category/delete/(:num)', 'CategoryController::deleteCategory/$
 $routes->get('/product', 'ProductController::index');
 $routes->get('/product/create', 'ProductController::addProduct');
 $routes->post('/product/save', 'ProductController::saveProduct');
+$routes->get('/uploads/(:any)', 'ProductController::getImage/$1');
+$routes->get('/product/detail/(:num)', 'ProductController::viewProduct/$1');
+$routes->get('/product/edit/(:num)', 'ProductController::editProduct/$1');
+$routes->post('/product/update/(:num)', 'ProductController::updateProduct/$1');
+$routes->delete('/product/delete/(:num)', 'ProductController::deleteProduct/$1');
+
 $routes->get('/testingbro', 'MainController::tes');
 $routes->get('/testingbro/create', 'MainController::tambahKomik');
 $routes->post('/testingbro/save', 'MainController::save');
