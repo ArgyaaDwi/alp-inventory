@@ -1,21 +1,25 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
+<?php
+
+use CodeIgniter\I18n\Time; ?>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1><b>Form Edit Kategori</b></h1>
+                <h1><b>Detail Kategori</b></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>category" style="text-color: black">Kategori</a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>category/create" style="text-color: black">Edit Kategori</a></li>
+                    <li class="breadcrumb-item"><a href="#" style="text-color: black">Detail Kategori</a></li>
                 </ol>
             </div>
         </div>
     </div><!-- /.container-fluid -->
 </section>
+
 <!-- Main content -->
 <section class="content">
 
@@ -29,28 +33,26 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/category/update/<?= $category['id']; ?>" method="POST">
-                <?= csrf_field(); ?>
-                <div class="row mb-3">
-                    <label for="category_name" class="col-sm-2 col-form-label">Nama Kategori</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="category_name" name="category_name" value="<?= $category['category_name']; ?>">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="category_description" class="col-sm-2 col-form-label">Deskripsi</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" id="category_description" name="category_description"><?= $category['category_description']; ?></textarea>
-                    </div>
-                </div>
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body" style="display: flex; align-items: flex-start;">
 
+                        <div>
+                            <h3><?= esc($category['category_name']); ?></h3>
+                            <p><strong>Deskripsi Kategori:</strong> <?= esc($category['category_description']); ?></p>
+                            <p><strong>Dibuat Pada:</strong> <?= esc($category['created_at']); ?></p>
+                            <p><strong>Diupdate Pada:</strong> <?= esc($category['updated_at']); ?></p>
+
+
+                        </div>
+                    </div>
+                </div>
                 <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </form>
+            </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-            Footer
+            PT. ALP Petro Industry
         </div>
         <!-- /.card-footer-->
     </div>

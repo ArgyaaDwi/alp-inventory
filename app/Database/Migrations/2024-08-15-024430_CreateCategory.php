@@ -19,6 +19,9 @@ class CreateCategory extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
             ],
+            'category_description' => [
+                'type'       => 'text',
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
             ],

@@ -25,6 +25,7 @@
         text-decoration: none;
     }
 
+    
     table.data table.dataTable thead th {
         background-color: #FFF455;
         color: black;
@@ -65,7 +66,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item dropdown user-menu">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="<?= base_url() ?>/images/user.jpg" class="user-image img-circle elevation-2" alt="User Image">
                         <span class="d-none d-md-inline">Argya Dwi</span>
                     </a>
@@ -81,7 +82,7 @@
                         <!-- Menu Body -->
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="#" class="btn btn-outline-info  rounded btn-flat ">Profil</a>
+                            <a href="<?= base_url() ?>user/profile" class="btn btn-outline-info  rounded btn-flat ">Profil</a>
                             <a href="#" class="btn btn-danger rounded btn-flat float-right"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                         </li>
                     </ul>
@@ -116,23 +117,10 @@
                         <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Argya Dwi</a>
+                        <a href="<?= base_url() ?>user/profile" class="d-block">Argya Dwi</a>
                     </div>
                 </div>
 
-                <!-- SidebarSearch Form -->
-                <!-- <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Sidebar Menu -->
 
                 <nav class="mt-2">
 
@@ -153,14 +141,22 @@
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Category
-                             
                                 </p>
                             </a>
                         </li> -->
-
-
                         <li class="nav-header">Kelola</li>
-
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>department" class="nav-link">
+                                <i class="nav-icon fa-regular fa-building"></i>
+                                <p>Departemen</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>employees" class="nav-link">
+                                <i class="nav-icon fa-regular fa-user"></i>
+                                <p>User</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="<?= base_url() ?>category" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>

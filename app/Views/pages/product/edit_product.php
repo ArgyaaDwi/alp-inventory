@@ -80,7 +80,24 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select class="form-control" id="status" name="id_status" required>
+                        <?php if (!empty($status)) : ?>
+                            <?php foreach ($status as $s) : ?>
+                                <option value="<?= $s['id']; ?>" <?= $product['id_status'] == $s['id'] ? 'selected' : ''; ?>>
+                                    <?= esc($s['status_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <option value="">Status tidak tersedia</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+                <div class="form-group" id="damage-description-container" style="<?= $product['id_status'] == 2 ? 'display: block;' : 'display: none;'; ?>">
+                    <label for="damage_description">Deskripsi Kerusakan:</label>
+                    <textarea id="damage_description" name="damage_description" class="form-control"><?= esc($product['damage_description']); ?></textarea>
+                </div>
 
                 <div class="row mb-3">
                     <label for="sampul" class="col-sm-2 col-form-label">Stok</label>
@@ -101,4 +118,16 @@
     <!-- /.card -->
 
 </section>
+<script>
+    document.getElementById('status').addEventListener('change', function() {
+        var damageDescription = document.getElementById('damage_description');
+        if (this.value === '2') {
+            document.getElementById('damage-description-container').style.display = 'block';
+            damageDescription.setAttribute('required', 'required'); // Tambahkan atribut 'required' saat ditampilkan
+        } else {
+            document.getElementById('damage-description-container').style.display = 'none';
+            damageDescription.removeAttribute('required'); // Hapus atribut 'required' saat disembunyikan
+        }
+    });
+</script>
 <?= $this->endSection() ?>

@@ -5,6 +5,18 @@
 use CodeIgniter\I18n\Time; ?>
 
 
+
+<?php
+// Asumsi $product adalah array yang berisi data produk
+$statusLabels = [
+    1 => 'Baik',
+    2 => 'Rusak Sebagian',
+    3 => 'Rusak'
+];
+
+$statusLabel = isset($statusLabels[$product['id_status']]) ? $statusLabels[$product['id_status']] : 'Tidak Diketahui';
+?>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -49,7 +61,10 @@ use CodeIgniter\I18n\Time; ?>
                             <p><strong>Harga:</strong> <?= esc($product['price']); ?></p>
                             <p><strong>Stok:</strong> <?= esc($product['stock']); ?></p>
                             <p><strong>Deskripsi:</strong> <?= esc($product['description']); ?></p>
-                            <p><strong>Sejak:</strong> <?= esc($product['created_at']);?><?= ' | '; ?><?= esc($since); ?> </p>
+                            <p><strong>Kondisi:</strong> <?= esc($statusLabel); ?></p>
+                            <?php if ($product['id_status'] == 2): ?>
+                                <p><strong>Deskripsi Kerusakan:</strong> <?= esc($product['damage_description']); ?></p>
+                            <?php endif; ?> <p><strong>Sejak:</strong> <?= esc($product['created_at']); ?><?= ' | '; ?><?= esc($since); ?> </p>
 
                         </div>
                     </div>

@@ -20,7 +20,6 @@
 
 <!-- Main content -->
 <section class="content">
-
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
@@ -36,11 +35,16 @@
                 <div class="row mb-3">
                     <label for="category_name" class="col-sm-2 col-form-label">Nama Kategori</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="category_name" name="category_name" autofocus>
+                        <input type="text" class="form-control" id="category_name" name="category_name" autofocus placeholder="Masukkan Nama Kategori">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="category_description" class="col-sm-2 col-form-label">Deskripsi</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="category_description" name="category_description" placeholder="Masukkan Deskripsi Terkait Kategori"></textarea>
                     </div>
                 </div>
                 <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
-
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>

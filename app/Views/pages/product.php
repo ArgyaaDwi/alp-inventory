@@ -15,6 +15,15 @@
                     <li class="breadcrumb-item"><a href="/product" style="text-color: black">Produk</a></li>
                 </ol>
             </div>
+            <?php if (session()->getFlashdata('success')) : ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                    <?= session()->getFlashdata('success'); ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -33,11 +42,12 @@
             </div>
         </div>
         <div class="card-body">
-            
+
             <table id="myTable" class="stripe responsive">
                 <thead>
                     <tr>
                         <th>No.</th>
+                        <th>ID.</th>
                         <th><span style="margin:0 15px">Nama Barang</span></th>
                         <th><span style="margin:0 15px">Brand</span> </th>
                         <th>Harga</th>
@@ -55,12 +65,14 @@
                         <?php foreach ($products as $p) : ?>
                             <tr>
                                 <td><?= $no++; ?></td>
+                                <td><?= $p['id']; ?></td>
                                 <td><span style="margin:0 15px"><?= $p['product_name']; ?></span></td>
                                 <td><span style="margin:0 15px"><?= $p['brand_name']; ?></span> </td>
                                 <td><span style="margin:0 15px"></span><?= $p['price']; ?></td>
-                                <td style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px">
-                                    <img src="/uploads/<?= esc($p['product_image']); ?>" width="80">
+                                <td style="display: flex; justify-content: center; align-items: center; height: 100px;">
+                                    <img src="/uploads/<?= esc($p['product_image']); ?>" width="80" alt="Product Image">
                                 </td>
+
 
 
 
@@ -123,7 +135,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-            Footer
+            PT. ALP Petro Industry
         </div>
         <!-- /.card-footer-->
     </div>

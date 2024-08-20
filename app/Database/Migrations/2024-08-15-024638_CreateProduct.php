@@ -41,8 +41,17 @@ class CreateProduct extends Migration
             ],
             'id_category' => [
                 'type' => 'INT',
-                'constraint' => 11,
+                'constraint' => 5,
                 'unsigned' => true
+            ],
+            'id_status' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true
+            ],
+            'damage_description' => [
+                'type' => 'Text',
+                'null' => true
             ],
             'stock' => [
                 'type' => 'INT',
@@ -57,15 +66,16 @@ class CreateProduct extends Migration
                 'null' => true,
             ],
         ]);
-
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_category', 'categories', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_status', 'status', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('products');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('products', 'products_id_category_foreign');
+        $this->forge->dropForeignKey('products', 'fk_id_kategori');
+        $this->forge->dropForeignKey('products', 'fk_id_status');
         $this->forge->dropTable('products');
     }
 }
