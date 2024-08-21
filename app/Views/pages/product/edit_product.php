@@ -11,7 +11,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>product" style="text-color: black">Produk</a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>product/create" style="text-color: black">Tambah Produk</a></li>
+                    <li class="breadcrumb-item"><span>Edit Produk <?= esc($product['product_name']); ?></span></li>
                 </ol>
             </div>
         </div>
@@ -62,6 +62,7 @@
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="product_image" name="product_image">
                         <img src="/uploads/<?= esc($product['product_image']); ?>" width="100" class="mt-2">
+                      
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -100,33 +101,29 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="sampul" class="col-sm-2 col-form-label">Stok</label>
+                    <label for="stock" class="col-sm-2 col-form-label">Stok</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="stock" name="stock" value="<?= esc($product['stock']); ?>">
                     </div>
                 </div>
-                <a href="<?= base_url() ?>product" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="<?= base_url() ?>product" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
-        <!-- /.card-body -->
         <div class="card-footer">
-            Footer
+            PT. ALP Petro Industry
         </div>
-        <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
-
 </section>
 <script>
     document.getElementById('status').addEventListener('change', function() {
         var damageDescription = document.getElementById('damage_description');
         if (this.value === '2') {
             document.getElementById('damage-description-container').style.display = 'block';
-            damageDescription.setAttribute('required', 'required'); // Tambahkan atribut 'required' saat ditampilkan
+            damageDescription.setAttribute('required', 'required');
         } else {
             document.getElementById('damage-description-container').style.display = 'none';
-            damageDescription.removeAttribute('required'); // Hapus atribut 'required' saat disembunyikan
+            damageDescription.removeAttribute('required');
         }
     });
 </script>

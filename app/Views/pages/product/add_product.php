@@ -10,13 +10,12 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>product" style="text-color: black">Produk</a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>product/create" style="text-color: black">Tambah Produk</a></li>
+                    <li class="breadcrumb-item"><span>Tambah Produk</span></li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
-<!-- Main content -->
 <section class="content">
     <div class="card">
         <div class="card-header">
@@ -57,6 +56,7 @@
                     <label for="product_image" class="col-sm-2 col-form-label">Gambar</label>
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="product_image" name="product_image" placeholder>
+
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -102,12 +102,12 @@
                         <input type="number" class="form-control" id="stock" name="stock" placeholder="Masukkan Stok">
                     </div>
                 </div>
-                <a href="<?= base_url() ?>product" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="<?= base_url() ?>product" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
         <div class="card-footer">
-            Footer
+            PT. ALP Petro Industry
         </div>
     </div>
 </section>

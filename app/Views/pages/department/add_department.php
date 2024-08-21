@@ -1,6 +1,5 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -11,16 +10,13 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>department" style="text-color: black">Departemen</a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>department/create" style="text-color: black">Tambah Departemen</a></li>
+                    <li class="breadcrumb-item"><span>Tambah Departemen</span></li>
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
-
-<!-- Main content -->
 <section class="content">
-    <!-- Default box -->
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
@@ -44,17 +40,13 @@
                         <textarea class="form-control" id="department_description" name="department_description" placeholder="Masukkan Deskripsi Terkait Departemen"></textarea>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="<?= base_url() ?>department" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
-        <!-- /.card-body -->
         <div class="card-footer">
-            Footer
+            PT. ALP Petro Industry
         </div>
-        <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
-
 </section>
 <?= $this->endSection() ?>

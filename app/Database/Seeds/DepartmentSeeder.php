@@ -9,7 +9,7 @@ class DepartmentSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create('id_ID');
-        for ($i = 0; $i <= 8; $i++) {
+        for ($i = 0; $i <= 18; $i++) {
             $data = [
                 'department_name' => $faker->word(),
                 'department_description' => $faker->sentence(),

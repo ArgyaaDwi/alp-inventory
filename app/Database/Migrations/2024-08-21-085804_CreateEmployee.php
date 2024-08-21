@@ -47,6 +47,11 @@ class CreateEmployee extends Migration
                 'constraint' => 5,
                 'unsigned' => true
             ],
+            'id_role' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true
+            ],
             'is_active' => [
                 'type' => 'BOOLEAN',
                 'default' => true
@@ -61,6 +66,7 @@ class CreateEmployee extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_department', 'departments', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_role', 'roles', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('employees');
     }
 

@@ -5,13 +5,17 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\EmployeeModel;
+use App\Models\DepartmentModel;
+use CodeIgniter\I18n\Time;
 
 class EmployeeController extends BaseController
 {
     protected $employeeModel;
+    protected $departmentModel;
     public function __construct()
     {
         $this->employeeModel = new EmployeeModel();
+        $this->departmentModel = new DepartmentModel();
     }
     public function index()
     {
@@ -27,11 +31,138 @@ class EmployeeController extends BaseController
 
         $data = [
             'currentDate' => $currentDate,
-            'employee' => $this->employeeModel->findAll(),
+            'employee' => $this->employeeModel->getEmployees(),
         ];
         return view('pages/employees/employee', $data);
     }
     public function viewEmployee($id)
+    {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $currentDate = $formatter->format(new \DateTime());
+        $employee = $this->employeeModel->getEmployeeWithDepartment($id);
+        $createdTime = Time::parse($employee['created_at']);
+        $now = Time::now();
+        $differenceCreate = $createdTime->difference($now);
+        $sinceUpdate = '-';
+        if (!is_null($employee['updated_at'])) {
+            $updatedTime = Time::parse($employee['updated_at']);
+            $differenceUpdate = $updatedTime->difference($now);
+            $sinceUpdate = $this->formatDifference($differenceUpdate);
+        }
+        $sinceCreate = $this->formatDifference($differenceCreate);
+
+        $data = [
+            'currentDate' => $currentDate,
+            'employee' => $employee,
+            'sinceCreate' => $sinceCreate,
+            'sinceUpdate' => $sinceUpdate
+        ];
+
+        return view('pages/employees/detail_employee', $data);
+    }
+    private function formatDifference($difference)
+    {
+        if ($difference->getYears() > 0) {
+            return $difference->getYears() . ' tahun yang lalu';
+        } elseif ($difference->getMonths() > 0) {
+            return $difference->getMonths() . ' bulan yang lalu';
+        } elseif ($difference->getWeeks() > 0) {
+            return $difference->getWeeks() . ' minggu yang lalu';
+        } elseif ($difference->getDays() > 0) {
+            return $difference->getDays() . ' hari yang lalu';
+        } elseif ($difference->getHours() > 0) {
+            return $difference->getHours() . ' jam yang lalu';
+        } elseif ($difference->getMinutes() > 0) {
+            return $difference->getMinutes() . ' menit yang lalu';
+        } else {
+            return 'Beberapa detik yang lalu';
+        }
+    }
+    public function getImage($filename)
+    {
+        $path = WRITEPATH . 'uploads/' . $filename;
+
+        if (file_exists($path)) {
+            return $this->response->download($path, null, true);
+        }
+
+        throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' not found');
+    }
+    public function addEmployee()
+    {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
+        $data = [
+            'currentDate' => $currentDate,
+            'departments' => $this->departmentModel->findAll(),
+        ];
+        return view('pages/employees/add_employee', $data);
+    }
+    public function saveEmployee()
+    {
+        $employeeName = $this->request->getVar('employee_name');
+        $rules = [
+            'employee_badge' => 'required|decimal',
+            'employee_name' => 'required',
+            'employee_address' => 'required',
+            'employee_position' => 'required',
+            'employee_email' => 'required',
+            'employee_phone' => 'required',
+            'employee_image' => [
+                'rules' => 'uploaded[employee_image]|max_size[employee_image,1024]|is_image[employee_image]|mime_in[employee_image,image/jpg,image/jpeg,image/png]',
+                'label' => 'Gambar Karyawan'
+            ],
+            'id_department' => 'required',
+        ];
+
+        if (!$this->validate($rules)) {
+            $errors = $this->validator->getErrors();
+            log_message('error', 'Validation errors: ' . print_r($errors, true));
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        $image = $this->request->getFile('employee_image');
+        $imageName = $image->getRandomName();
+        $image->move(WRITEPATH . 'uploads/', $imageName);
+
+        $data = [
+            'employee_badge' => $this->request->getPost('employee_badge'),
+            'employee_name' => $this->request->getPost('employee_name'),
+            'employee_address' => $this->request->getPost('employee_address'),
+            'employee_position' => $this->request->getPost('employee_position'),
+            'employee_email' => $this->request->getPost('employee_email'),
+            'employee_phone' => $this->request->getPost('employee_phone'),
+            'employee_image' => $imageName,
+            'id_department' => $this->request->getPost('id_department'),
+            'id_role' => 2,
+            'is_active' => 1,
+            'created_at' => Time::now(),
+        ];
+
+        try {
+            $this->employeeModel->save($data);
+            session()->setFlashdata('success', "Karyawan <strong style='color: darkgreen;'>{$employeeName}</strong> berhasil ditambahkan!");
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat menambahkan karyawan: ' . $e->getMessage());
+            return redirect()->back()->with('errors', 'Terjadi kesalahan saat menambahkan karyawan');
+        }
+
+        return redirect()->to('/employees');
+    }
+    public function editEmployee($id)
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -45,7 +176,85 @@ class EmployeeController extends BaseController
         $data = [
             'currentDate' => $currentDate,
             'employee' => $this->employeeModel->find($id),
+            'departments' => $this->departmentModel->findAll(),
         ];
-        return view('pages/employees/detail_employee', $data);
+        return view('pages/employees/edit_employee', $data);
+    }
+    public function updateEmployee($id)
+    {
+        $employee = $this->employeeModel->find($id);
+        // $employeeName = $this->request->getPost('employee_name');
+        $rules = [
+            'employee_badge' => 'required|decimal',
+            'employee_name' => 'required',
+            'employee_address' => 'required',
+            'employee_position' => 'required',
+            'employee_email' => 'required',
+            'employee_phone' => 'required',
+            'employee_image' => [
+                'rules' => 'max_size[employee_image,1024]|is_image[employee_image]|mime_in[employee_image,image/jpg,image/jpeg,image/png]',
+                'label' => 'Gambar Karyawan'
+            ],
+            'id_department' => 'required',
+            'is_active' => 'required',
+        ];
+        if (!$this->validate($rules)) {
+            $errors = $this->validator->getErrors();
+            log_message('error', 'Validation errors: ' . print_r($errors, true));
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        $image = $this->request->getFile('employee_image');
+        // if ($image->getError() == 4) {
+        //     $imageName = $this->request->getPost('old_image');
+        // } else {
+        //     $imageName = $image->getRandomName();
+        //     $image->move(WRITEPATH . 'uploads/', $imageName);
+        //     if ($this->request->getPost('old_image') != 'default.jpg') {
+        //         unlink(WRITEPATH . 'uploads/' . $this->request->getPost('old_image'));
+        //     }
+        // }
+        if ($image && $image->isValid()) {
+            if (!empty($product['employee_image']) && file_exists(WRITEPATH . 'uploads/' . $employee['employee_image'])) {
+                unlink(WRITEPATH . 'uploads/' . $employee['employee_image']);
+            }
+            $imageName = $image->getRandomName();
+            $image->move(WRITEPATH . 'uploads', $imageName);
+        } else {
+            $imageName = $employee['employee_image'];
+        }
+        $data = [
+            'employee_badge' => $this->request->getPost('employee_badge'),
+            'employee_name' => $this->request->getPost('employee_name'),
+            'employee_address' => $this->request->getPost('employee_address'),
+            'employee_position' => $this->request->getPost('employee_position'),
+            'employee_email' => $this->request->getPost('employee_email'),
+            'employee_phone' => $this->request->getPost('employee_phone'),
+            'employee_image' => $imageName,
+            'id_department' => $this->request->getPost('id_department'),
+            'updated_at' => Time::now(),
+            'is_active' => $this->request->getPost('is_active'),
+        ];
+        try {
+            $this->employeeModel->update($id, $data);
+            session()->setFlashdata('success', "Data berhasil diubah!");
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat memperbarui karyawan: ' . $e->getMessage());
+            return redirect()->back()->with('errors', 'Terjadi kesalahan saat memperbarui karyawan');
+        }
+
+        return redirect()->to('/employees');
+    }
+    public function deleteEmployee($id)
+    {
+        $employee = $this->employeeModel->find($id);
+        if ($employee) {
+            $employeeName = $employee['employee_name'];
+            $this->employeeModel->delete($id);
+            session()->setFlashdata('success', "Karyawan <strong style='color: darkgreen;'>{$employeeName}</strong> berhasil dihapus!");
+        } else {
+            session()->setFlashdata('error', "Karyawan tidak ditemukan.");
+        }
+        return redirect()->to('/employees');
     }
 }

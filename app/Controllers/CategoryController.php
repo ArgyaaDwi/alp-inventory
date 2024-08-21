@@ -105,13 +105,12 @@ class CategoryController extends ResourceController
     }
     public function updateCategory($id)
     {
-        $this->kategoriModel->update($id, [
+        $this->kategoriModel->update($id, [ 
             'category_name' => $this->request->getVar('category_name'),
             'category_description' => $this->request->getVar('category_description'),
             'updated_at' => Time::now(),
 
         ]);
-
         session()->setFlashdata('success', "Data berhasil diubah!");
         return redirect()->to('/category');
     }

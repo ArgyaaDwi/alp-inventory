@@ -1,8 +1,5 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
-<?php
-
-use CodeIgniter\I18n\Time; ?>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -13,17 +10,13 @@ use CodeIgniter\I18n\Time; ?>
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>category" style="text-color: black">Kategori</a></li>
-                    <li class="breadcrumb-item"><a href="#" style="text-color: black">Detail Kategori</a></li>
+                    <li class="breadcrumb-item"><span><?= esc($category['category_name']); ?></span></li>
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
-
-<!-- Main content -->
 <section class="content">
-
-    <!-- Default box -->
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
@@ -36,27 +29,21 @@ use CodeIgniter\I18n\Time; ?>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body" style="display: flex; align-items: flex-start;">
-
                         <div>
                             <h3><?= esc($category['category_name']); ?></h3>
                             <p><strong>Deskripsi Kategori:</strong> <?= esc($category['category_description']); ?></p>
                             <p><strong>Dibuat Pada:</strong> <?= esc($category['created_at']); ?></p>
                             <p><strong>Diupdate Pada:</strong> <?= esc($category['updated_at']); ?></p>
-
-
                         </div>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
+                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="/category/edit/<?= $category['id']; ?>" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
             </div>
         </div>
-        <!-- /.card-body -->
         <div class="card-footer">
             PT. ALP Petro Industry
         </div>
-        <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
-
 </section>
 <?= $this->endSection() ?>

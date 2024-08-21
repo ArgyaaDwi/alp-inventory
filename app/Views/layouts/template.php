@@ -14,9 +14,8 @@
     <link rel="stylesheet" href="<?= base_url() ?>/DataTables/dataTables.css">
     <link rel="stylesheet" href="<?= base_url() ?>/DataTables/dataTables.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/adminlte.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="//cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css"> -->
 </head>
@@ -25,7 +24,7 @@
         text-decoration: none;
     }
 
-    
+
     table.data table.dataTable thead th {
         background-color: #FFF455;
         color: black;
@@ -54,19 +53,19 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <p class="nav-link">
+                <li class="nav-item">
+                    <span class="nav-link">
                         <strong>
                             <?= $currentDate ?? 'Unknown Day'; ?>
                         </strong>
-                    </p>
+                    </span>
                 </li>
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item dropdown user-menu">
-                    <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="nav-link bg-white dropdown-toggle" data-toggle="dropdown" style="background-color: #ffffff; ">
                         <img src="<?= base_url() ?>/images/user.jpg" class="user-image img-circle elevation-2" alt="User Image">
                         <span class="d-none d-md-inline">Argya Dwi</span>
                     </a>
@@ -92,15 +91,9 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
-                    </a>
-                </li> -->
             </ul>
         </nav>
         <!-- /.navbar -->
-
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-light-primary elevation-4">
             <!-- Brand Logo -->
@@ -108,7 +101,6 @@
                 <img src="<?= base_url() ?>/images/logoalp.jpg" alt="AdminLTE Logo" class="brand-image " style="opacity: .8">
                 <span class="brand-text font-weight-bold">ALP Inventory</span>
             </a>
-
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user (optional) -->
@@ -120,14 +112,8 @@
                         <a href="<?= base_url() ?>user/profile" class="d-block">Argya Dwi</a>
                     </div>
                 </div>
-
-
                 <nav class="mt-2">
-
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
                         <li class="nav-item">
                             <a href="<?= base_url() ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -144,6 +130,44 @@
                                 </p>
                             </a>
                         </li> -->
+                        <li class="nav-header">Kelola Data</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa-solid fa-database"></i>
+                                <p>
+                                    Data
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url() ?>department" class="nav-link">
+                                        <i class="nav-icon fa-regular fa-building"></i>
+                                        <p>Departemen</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url() ?>employees" class="nav-link">
+                                        <i class="nav-icon fa-regular fa-user"></i>
+                                        <p>Karyawan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url() ?>category" class="nav-link">
+                                        <i class="nav-icon fas fa-list"></i>
+
+                                        <p>Kategori</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url() ?>product" class="nav-link">
+                                        <i class="nav-icon fas fa-ellipsis-h"></i>
+
+                                        <p>Produk</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-header">Kelola</li>
                         <li class="nav-item">
                             <a href="<?= base_url() ?>department" class="nav-link">
@@ -154,7 +178,7 @@
                         <li class="nav-item">
                             <a href="<?= base_url() ?>employees" class="nav-link">
                                 <i class="nav-icon fa-regular fa-user"></i>
-                                <p>User</p>
+                                <p>Karyawan</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -215,6 +239,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <?= $this->renderSection('content'); ?>
+
             <!-- Content Header (Page header) -->
 
             <!-- /.content -->
@@ -250,7 +275,7 @@
     <!-- AdminLTE App -->
     <script src="<?= base_url() ?>/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="<?= base_url() ?>/dist/js/demo.js"></script>
+    <!-- <script src="<?= base_url() ?>/dist/js/demo.js"></script> -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <!-- <script src="//cdn.datatables.net/2.1.3/js/dataTables.min.js"></script> -->
     <script>
@@ -258,6 +283,19 @@
     </script>
     <script src="https://kit.fontawesome.com/ba7a415507.js" crossorigin="anonymous"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.nav-link');
+            const currentUrl = window.location.href;
+
+            links.forEach(link => {
+                if (link.href === currentUrl) {
+                    link.classList.add('active', 'bg-dark');
+                }
+            });
+        });
+    </script> -->
+
 
 </body>
 

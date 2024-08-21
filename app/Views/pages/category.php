@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Halaman Kategori</h1>
+                    <h1><b>Halaman Kategori</b></h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
-                        <li class="breadcrumb-item"><a href="/category">Kategori</a></li>
+                        <li class="breadcrumb-item"><span>Kategori</span></li>
                     </ol>
                 </div>
             </div>
@@ -22,20 +22,16 @@
                     <?= session()->getFlashdata('success'); ?>
                 </div>
             <?php endif; ?>
-
         </div>
-
     </section>
     <section class="content">
         <div class="card">
             <div class="card-header">
-                <a href="<?= base_url() ?>category/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Kategori</a>
-
+                <a href="<?= base_url() ?>category/create" class="btn" style="background-color: #00008B; color: white"><i class="fa-solid fa-plus"></i> Tambah Kategori</a>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>
                     </button>
-
                 </div>
             </div>
             <div class="card-body">
@@ -66,16 +62,11 @@
                                                 </svg>
                                             </a>
                                             <a href="/category/edit/<?= $c['id']; ?>" class="btn btn-outline-warning">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                </svg>
+                                                <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
 
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $c['id']; ?>">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                                </svg>
+                                                <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                             <div class="modal fade" id="deleteModal<?= $c['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel<?= $c['id']; ?>" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -94,8 +85,8 @@
                                                             <form action="/category/delete/<?= $c['id']; ?>" method="post" style="display:inline;">
                                                                 <?= csrf_field() ?>
                                                                 <input type="hidden" name="_method" value="DELETE">
-                                                                <button type="submit" class="btn btn-danger">
-                                                                    Hapus
+                                                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>
+                                                                     Hapus
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -109,28 +100,16 @@
 
         <?php endforeach; ?>
     <?php else : ?>
-
         <tr>
             <td colspan="8" class="text-center">Tidak ada data</td>
         </tr>
     <?php endif; ?>
-
-
     </tfoot>
     </table>
         </div>
-
-
-
-        <!-- /.card-body -->
         <div class="card-footer">
             PT. ALP Petro Industry
         </div>
-        <!-- /.card-footer-->
         </div>
-        <!-- /.card -->
-
     </section>
-
-
     <?= $this->endSection() ?>

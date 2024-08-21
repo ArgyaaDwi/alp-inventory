@@ -10,16 +10,13 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>category" style="text-color: black">Kategori</a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>category/create" style="text-color: black">Edit Kategori</a></li>
+                    <li class="breadcrumb-item">Edit Kategori <?= esc($category['category_name']); ?></li>
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
-<!-- Main content -->
 <section class="content">
-
-    <!-- Default box -->
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
@@ -43,18 +40,13 @@
                         <textarea class="form-control" id="category_description" name="category_description"><?= $category['category_description']; ?></textarea>
                     </div>
                 </div>
-
-                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
-        <!-- /.card-body -->
         <div class="card-footer">
             Footer
         </div>
-        <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
-
 </section>
 <?= $this->endSection() ?>

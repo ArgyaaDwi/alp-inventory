@@ -1,6 +1,5 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -10,7 +9,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#" style="color: black">Profile</a></li>
+                    <li class="breadcrumb-item"><span>Profile</span></li>
                 </ol>
             </div>
         </div>

@@ -37,7 +37,6 @@ class ProductController extends ResourceController
         );
         $tanggal = new \DateTime();
         $currentDate = $formatter->format($tanggal); // Format tanggal
-
         $data = [
             'currentDate' => $currentDate,
             'products' => $this->productModel->getProducts()
@@ -95,21 +94,15 @@ class ProductController extends ResourceController
             'id_status' => 'required',
             'stock' => 'required|integer',
         ];
-
-        // Add validation for damage_description if id_status is 2
         if ($this->request->getVar('id_status') == 2) {
             $rules['damage_description'] = 'required|string';
         }
-
-        // Validate the input data
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-        // Get id_status from the form
         $id_status = (int)$this->request->getVar('id_status');
         // Check if id_status exists in the status table
         $statusExists = $this->db->table('status')->where('id', $id_status)->countAllResults();
-
         if ($statusExists === 0) {
             log_message('error', 'Invalid id_status: ' . $id_status);
             return redirect()->back()->with('error', 'Status tidak valid.');
@@ -118,7 +111,6 @@ class ProductController extends ResourceController
         $image = $this->request->getFile('product_image');
         $imageName = $image->getRandomName();
         $image->move(WRITEPATH . 'uploads', $imageName);
-        // Prepare the data for saving
         $data = [
             'product_name' => $this->request->getVar('product_name'),
             'brand_name' => $this->request->getVar('brand_name'),
@@ -135,20 +127,16 @@ class ProductController extends ResourceController
         // Save the data to the database
         try {
             $this->productModel->save($data);
+            session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$productName}</strong> berhasil ditambahkan!");
         } catch (\Exception $e) {
             log_message('error', 'Error saat menyimpan produk: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan produk.');
         }
-        session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$productName}</strong> berhasil ditambahkan!");
-
         return redirect()->to('/product');
     }
-
-
-
     public function viewProduct($id)
     {
-        $locale = 'id_ID'; // Locale Bahasa Indonesia
+        $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
             $locale,
             \IntlDateFormatter::FULL,
@@ -156,59 +144,77 @@ class ProductController extends ResourceController
             'Asia/Jakarta'
         );
         $tanggal = new \DateTime();
-        $currentDate = $formatter->format($tanggal); // Format tanggal
+        $currentDate = $formatter->format($tanggal);
         $product = $this->productModel->find($id);
-
         if (!$product) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Produk dengan ID $id tidak ditemukan.");
         }
-        // Parsing waktu yang dibuat ke dalam format Time
         $createdTime = \CodeIgniter\I18n\Time::parse($product['created_at']);
         $now = \CodeIgniter\I18n\Time::now();
-
-        // Menghitung selisih waktu
-        $difference = $createdTime->difference($now);
-        $since = $createdTime->humanize();
-
-        // Konversi manual untuk mendapatkan perbedaan dalam bahasa Indonesia
-        if ($difference->getYears() > 0) {
-            $since = $difference->getYears() . ' tahun yang lalu';
-        } elseif ($difference->getMonths() > 0) {
-            $since = $difference->getMonths() . ' bulan yang lalu';
-        } elseif ($difference->getWeeks() > 0) {
-            $since = $difference->getWeeks() . ' minggu yang lalu';
-        } elseif ($difference->getDays() > 0) {
-            $since = $difference->getDays() . ' hari yang lalu';
-        } elseif ($difference->getHours() > 0) {
-            $since = $difference->getHours() . ' jam yang lalu';
-        } elseif ($difference->getMinutes() > 0) {
-            $since = $difference->getMinutes() . ' menit yang lalu';
-        } else {
-            $since = 'Beberapa detik yang lalu';
+        $differenceCreate = $createdTime->difference($now);
+        $sinceUpdate = '-';
+        if (!is_null($product['updated_at'])) {
+            $updatedTime = \CodeIgniter\I18n\Time::parse($product['updated_at']);
+            $differenceUpdate = $updatedTime->difference($now);
+            $sinceUpdate = $this->formatDifference($differenceUpdate);
         }
-
-        return view('pages/product/detail_product', [
+        $sinceCreate = $this->formatDifference($differenceCreate);
+        $data = [
             'currentDate' => $currentDate,
             'product' => $product,
-            'since' => $since,
-        ]);
+            'sinceCreate' => $sinceCreate,
+            'sinceUpdate' => $sinceUpdate
+        ];
+
+        return view('pages/product/detail_product', $data);
+    }
+    private function formatDifference($difference)
+    {
+        if ($difference->getYears() > 0) {
+            return $difference->getYears() . ' tahun yang lalu';
+        } elseif ($difference->getMonths() > 0) {
+            return $difference->getMonths() . ' bulan yang lalu';
+        } elseif ($difference->getWeeks() > 0) {
+            return $difference->getWeeks() . ' minggu yang lalu';
+        } elseif ($difference->getDays() > 0) {
+            return $difference->getDays() . ' hari yang lalu';
+        } elseif ($difference->getHours() > 0) {
+            return $difference->getHours() . ' jam yang lalu';
+        } elseif ($difference->getMinutes() > 0) {
+            return $difference->getMinutes() . ' menit yang lalu';
+        } else {
+            return 'Beberapa detik yang lalu';
+        }
     }
     public function editProduct($id)
     {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
+        $data = [
+            'currentDate' => $currentDate,
+            'productID' => $this->productModel->find($id),
+            'status' => $this->statusModel->findAll(),
+        ];
         $productID = $this->productModel->find($id);
         $status = $this->statusModel->findAll();
         return view('pages/product/edit_product', [
             'categories' => $this->kategoriModel->findAll(),
             'product' => $productID,
-            'status' => $status
+            'status' => $status,
+            'currentDate' => $currentDate
         ]);
     }
 
     public function updateProduct($id)
     {
         $product = $this->productModel->find($id);
-
-        // Validasi input
         $rules = [
             'product_name' => 'required',
             'brand_name' => 'required',
@@ -246,7 +252,6 @@ class ProductController extends ResourceController
             // Jika tidak ada gambar baru, gunakan gambar lama
             $imageName = $product['product_image'];
         }
-
         // Perbarui data produk
         try {
             $this->productModel->update($id, [
@@ -255,11 +260,12 @@ class ProductController extends ResourceController
                 'description' => $this->request->getVar('description'),
                 'price' => $this->request->getVar('price'),
                 'id_category' => $this->request->getVar('id_category'),
-                'id_status' => $id_status, // Pastikan id_status juga diperbarui
+                'id_status' => $id_status,
                 'damage_description' => $id_status === 2 ? $this->request->getVar('damage_description') : null, // Set ke null jika tidak diperlukan
                 'stock' => $this->request->getVar('stock'),
                 'product_image' => $imageName
             ]);
+            session()->setFlashdata('success', "Data berhasil diubah!");
         } catch (\Exception $e) {
             log_message('error', 'Error saat memperbarui produk: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui produk.');

@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'MainController::index');
 
+$routes->get('register', 'Auth::register');
+$routes->get('login', 'Auth::login');
 //Routes for Category
 $routes->get('/category', 'CategoryController::index');
 $routes->get('/category/detail/(:num)', 'CategoryController::viewCategory/$1');
@@ -27,7 +29,7 @@ $routes->post('/product/update/(:num)', 'ProductController::updateProduct/$1');
 $routes->delete('/product/delete/(:num)', 'ProductController::deleteProduct/$1');
 
 //Routes for Testing
-$routes->get('/testingbro', 'MainController::tes');
+$routes->get('/testingbro', 'MainController::tes'); 
 $routes->get('/testingbro/create', 'MainController::tambahKomik');
 $routes->post('/testingbro/save', 'MainController::save');
 $routes->get('komik/(:segment)', 'MainController::detailKomik/$1');
@@ -44,3 +46,10 @@ $routes->get('/user/profile', 'UserController::viewProfile');
 
 $routes->get('/employees', 'EmployeeController::index');
 $routes->get('/employees/detail/(:num)', 'EmployeeController::viewEmployee/$1');
+$routes->get('/employees/create', 'EmployeeController::addEmployee');
+$routes->post('/employees/save', 'EmployeeController::saveEmployee');
+$routes->get('/uploads/employees/(:any)', 'EmployeeController::getImage/$1');
+$routes->get('/employees/edit/(:num)', 'EmployeeController::editEmployee/$1');
+$routes->post('/employees/update/(:num)', 'EmployeeController::updateEmployee/$1');
+
+$routes->delete('/employees/delete/(:num)', 'EmployeeController::deleteEmployee/$1');
