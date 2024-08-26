@@ -9,8 +9,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>department" style="text-color: black">Departemen</a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/department') ?>" style="text-color: black">Departemen</a></li>
                     <li class="breadcrumb-item"><span>Edit Departemen <?= esc($department['department_name']); ?></span></li>
                 </ol>
             </div>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="<?= base_url('department/update/' . $department['id']); ?>" method="POST">
+            <form action="<?= base_url('admin/department/update/' . $department['id']); ?>" method="POST">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
                     <label for="department_name" class="col-sm-2 col-form-label">Nama Departemen</label>

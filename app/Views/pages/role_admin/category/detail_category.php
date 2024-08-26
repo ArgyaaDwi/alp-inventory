@@ -8,8 +8,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>category" style="text-color: black">Kategori</a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/category') ?>" style="text-color: black">Kategori</a></li>
                     <li class="breadcrumb-item"><span><?= esc($category['category_name']); ?></span></li>
                 </ol>
             </div>
@@ -37,8 +37,8 @@
                         </div>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
-                <a href="/category/edit/<?= $category['id']; ?>" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
+                <a href="<?= base_url('admin/category') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/category/edit/' . $category['id']) ?>"class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
             </div>
         </div>
         <div class="card-footer">

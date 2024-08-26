@@ -4,13 +4,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1><b>Form Edit Kategori</b></h1>
+                <h1><b>Form Tambah Departemen</b></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>category" style="text-color: black">Kategori</a></li>
-                    <li class="breadcrumb-item">Edit Kategori <?= esc($category['category_name']); ?></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/department') ?>" style="text-color: black">Departemen</a></li>
+                    <li class="breadcrumb-item"><span>Tambah Departemen</span></li>
                 </ol>
             </div>
         </div>
@@ -26,26 +26,26 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/category/update/<?= $category['id']; ?>" method="POST">
+            <form action="<?= base_url('admin/department/save')?>" method="POST">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
-                    <label for="category_name" class="col-sm-2 col-form-label">Nama Kategori</label>
+                    <label for="department_name" class="col-sm-2 col-form-label">Nama Departemen</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="category_name" name="category_name" value="<?= $category['category_name']; ?>">
+                        <input type="text" class="form-control" id="department_name" name="department_name" autofocus placeholder="Masukkan Nama Departemen">
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="category_description" class="col-sm-2 col-form-label">Deskripsi</label>
+                    <label for="department_description" class="col-sm-2 col-form-label">Deskripsi</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="category_description" name="category_description"><?= $category['category_description']; ?></textarea>
+                        <textarea class="form-control" id="department_description" name="department_description" placeholder="Masukkan Deskripsi Terkait Departemen"></textarea>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/department') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
         <div class="card-footer">
-            Footer
+            PT. ALP Petro Industry
         </div>
     </div>
 </section>

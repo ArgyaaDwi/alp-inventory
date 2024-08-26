@@ -12,7 +12,7 @@ use CodeIgniter\I18n\Time; ?>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>department" style="text-color: black">Departemen</a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/department') ?>" style="text-color: black">Departemen</a></li>
                     <li class="breadcrumb-item"><span><?= esc($department['department_name']); ?></span></li>
                 </ol>
             </div>
@@ -45,8 +45,10 @@ use CodeIgniter\I18n\Time; ?>
                         </div>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>department" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
-                <a href="/department/edit/<?= $department['id']; ?>" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
+                <a href="<?= base_url('admin/department') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="
+                <?= base_url('admin/department/edit/'  . $department['id']) ?>"
+                    class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
 
             </div>
         </div>

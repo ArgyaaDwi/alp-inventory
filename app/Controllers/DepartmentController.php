@@ -30,7 +30,7 @@ class DepartmentController extends BaseController
             'currentDate' => $currentDate,
             'department' => $this->departemenModel->findAll(),
         ];
-        return view('pages/department/department', $data);
+        return view('pages/role_admin/department/department', $data);
     }
     public function viewDepartment($id)
     {
@@ -48,7 +48,7 @@ class DepartmentController extends BaseController
             'department' => $this->departemenModel->find($id),
         ];
 
-        return view('pages/department/detail_department', $data);
+        return view('pages/role_admin/department/detail_department', $data);
     }
 
     public function addDepartment()
@@ -66,7 +66,7 @@ class DepartmentController extends BaseController
             'currentDate' => $currentDate,
         ];
 
-        return view('pages/department/add_department', $data);
+        return view('pages/role_admin/department/add_department', $data);
     }
     public function saveDepartment()
     {
@@ -77,7 +77,7 @@ class DepartmentController extends BaseController
             'created_at' => Time::now(),
         ]);
         session()->setFlashdata('success', "Departemen <strong style='color: darkgreen;'>{$departmenName}</strong> berhasil ditambahkan!");
-        return redirect()->to('/department');
+        return redirect()->to('/admin/department');
     }
 
     public function editDepartment($id)
@@ -96,7 +96,7 @@ class DepartmentController extends BaseController
             'currentDate' => $currentDate,
             'department' => $this->departemenModel->find($id),
         ];
-        return view('pages/department/edit_department', $data);
+        return view('pages/role_admin/department/edit_department', $data);
     }
 
     public function updateDepartment($id)
@@ -107,13 +107,11 @@ class DepartmentController extends BaseController
             'updated_at' => Time::now(),
         ]);
         session()->setFlashdata('success', "Data berhasil diubah!");
-        return redirect()->to('/department');
+        return redirect()->to('/admin/department');
     }
 
     public function deleteDepartment($id)
     {
-
-
         $department = $this->departemenModel->find($id);
         if ($department) {
             $departmentName = $department['department_name'];
@@ -122,7 +120,6 @@ class DepartmentController extends BaseController
         } else {
             session()->setFlashdata('error', "Departemen tidak ditemukan.");
         }
-
-        return redirect()->to('/department');
+        return redirect()->to('/admin/department');
     }
 }

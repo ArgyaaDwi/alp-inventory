@@ -17,35 +17,45 @@ class CreateEmployee extends Migration
             ],
             'employee_badge' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255
+                'constraint' => 255,
+                'null' => true,
             ],
             'employee_name' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
             'employee_address' => [
-                'type' => 'text'
+                'type' => 'text',
+                'null' => true
             ],
             'employee_position' => [
                 'type' => 'varchar',
-                'constraint' => 255
+                'constraint' => 255,
+                'null' => true
             ],
             'employee_email' => [
                 'type' => 'varchar',
                 'constraint' => 255
             ],
-            'employee_phone' => [
+            'employee_password' => [
                 'type' => 'varchar',
                 'constraint' => 255
             ],
+            'employee_phone' => [
+                'type' => 'varchar',
+                'constraint' => 255,
+                'null' => true
+            ],
             'employee_image' => [
                 'type' => 'varchar',
-                'constraint' => 255
+                'constraint' => 255,
+                'null' => true
             ],
             'id_department' => [
                 'type' => 'INT',
                 'constraint' => 5,
-                'unsigned' => true
+                'unsigned' => true,
+                'null' => true
             ],
             'id_role' => [
                 'type' => 'INT',
@@ -73,6 +83,5 @@ class CreateEmployee extends Migration
     public function down()
     {
         $this->forge->dropTable('employees');
-        
     }
 }

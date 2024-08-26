@@ -41,6 +41,18 @@
     table.dataTable tbody tr:hover {
         background-color: #d1ecf1;
     }
+
+    .navbar .nav-link.dropdown-toggle {
+        background-color: #ffffff !important;
+        color: inherit !important;
+    }
+
+    .navbar .nav-link.dropdown-toggle:hover,
+    .navbar .nav-link.dropdown-toggle:focus {
+        background-color: #ffffff !important;
+        color: inherit !important;
+        box-shadow: none !important;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -54,7 +66,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item">
-                    <span class="nav-link">
+                    <span class="nav-link" style="color: black;">
                         <strong>
                             <?= $currentDate ?? 'Unknown Day'; ?>
                         </strong>
@@ -65,24 +77,28 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item dropdown user-menu">
-                    <a href="" class="nav-link bg-white dropdown-toggle" data-toggle="dropdown" style="background-color: #ffffff; ">
+                    <a href="" class="nav-link bg-white dropdown-toggle " data-toggle="dropdown" style="background-color: #ffffff; ">
                         <img src="<?= base_url() ?>/images/user.jpg" class="user-image img-circle elevation-2" alt="User Image">
-                        <span class="d-none d-md-inline">Argya Dwi</span>
+                        <span class="d-none d-md-inline"><?= session()->get('employee_name'); ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
                         <li class="user-header">
                             <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
                             <p>
-                                Argya Dwi
-                                <small>Member since Nov. 2012</small>
+                                <?= session()->get('employee_name'); ?>
+                                <small><?= session()->get('employee_email'); ?></small>
                             </p>
                         </li>
                         <!-- Menu Body -->
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="<?= base_url() ?>user/profile" class="btn btn-outline-info  rounded btn-flat ">Profil</a>
-                            <a href="#" class="btn btn-danger rounded btn-flat float-right"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                            <a href="<?= base_url('admin/profile') ?>" class="btn btn-outline-info  rounded btn-flat ">Profil</a>
+                            <form action="<?= base_url('logout'); ?>" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger rounded btn-flat float-right">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </li>
@@ -97,7 +113,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-light-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="<?= base_url() ?>" class="brand-link">
+            <a href="<?= base_url('admin') ?>" class="brand-link">
                 <img src="<?= base_url() ?>/images/logoalp.jpg" alt="AdminLTE Logo" class="brand-image " style="opacity: .8">
                 <span class="brand-text font-weight-bold">ALP Inventory</span>
             </a>
@@ -109,13 +125,13 @@
                         <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="<?= base_url() ?>user/profile" class="d-block">Argya Dwi</a>
+                        <a href="<?= base_url('admin/profile') ?>" class="d-block"><?= session()->get('employee_name'); ?></a>
                     </div>
                 </div>
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?= base_url() ?>" class="nav-link">
+                            <a href="<?= base_url('admin') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -138,29 +154,29 @@
                                     Data
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
-                            </a>
+                            </a>    
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= base_url() ?>department" class="nav-link">
+                                    <a href="<?= base_url('admin/department') ?>" class="nav-link">
                                         <i class="nav-icon fa-regular fa-building"></i>
                                         <p>Departemen</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= base_url() ?>employees" class="nav-link">
+                                    <a href="<?= base_url('admin/employees') ?>" class="nav-link">
                                         <i class="nav-icon fa-regular fa-user"></i>
                                         <p>Karyawan</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= base_url() ?>category" class="nav-link">
+                                    <a href="<?= base_url('admin/category') ?>" class="nav-link">
                                         <i class="nav-icon fas fa-list"></i>
 
                                         <p>Kategori</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= base_url() ?>product" class="nav-link">
+                                    <a href="<?= base_url('admin/product') ?>" class="nav-link">
                                         <i class="nav-icon fas fa-ellipsis-h"></i>
 
                                         <p>Produk</p>
@@ -170,26 +186,26 @@
                         </li>
                         <li class="nav-header">Kelola</li>
                         <li class="nav-item">
-                            <a href="<?= base_url() ?>department" class="nav-link">
+                            <a href="<?= base_url('admin/department') ?>" class="nav-link">
                                 <i class="nav-icon fa-regular fa-building"></i>
                                 <p>Departemen</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() ?>employees" class="nav-link">
+                            <a href="<?= base_url('admin/employees') ?>" class="nav-link">
                                 <i class="nav-icon fa-regular fa-user"></i>
                                 <p>Karyawan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() ?>category" class="nav-link">
+                            <a href="<?= base_url('admin/category') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
 
                                 <p>Kategori</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() ?>product" class="nav-link">
+                            <a href="<?= base_url('admin/product') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-ellipsis-h"></i>
 
                                 <p>Produk</p>
@@ -205,7 +221,6 @@
                                         <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
                                     </svg>
                                 </i>
-
                                 <p>Barang Masuk</p>
                             </a>
                         </li>
@@ -217,7 +232,6 @@
                                         <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
                                     </svg>
                                 </i>
-
                                 <p>Barang Keluar</p>
                             </a>
                         </li>
@@ -283,7 +297,7 @@
     </script>
     <script src="https://kit.fontawesome.com/ba7a415507.js" crossorigin="anonymous"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <!-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('.nav-link');
             const currentUrl = window.location.href;
@@ -294,7 +308,7 @@
                 }
             });
         });
-    </script> -->
+    </script>
 
 
 </body>

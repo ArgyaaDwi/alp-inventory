@@ -1,21 +1,23 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1><b>Form Edit Karyawan</b></h1>
+                <h1><b>Edit Profil </b></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>employees" style="text-color: black">Karyawan</a></li>
-                    <li class="breadcrumb-item"><span>Edit Karyawan <?= $employee['employee_name']; ?></span></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/profile') ?>">Profil</a></li>
+                    <li class="breadcrumb-item"><span>Edit Profil <?= esc($employee['employee_name'] ?? ''); ?></span></li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
+
 <section class="content">
     <div class="card">
         <div class="card-header">
@@ -26,7 +28,8 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/employees/update/<?= $employee['id']; ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('admin/profile/update'); ?>"
+                method="POST" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -47,36 +50,35 @@
                             <?php endif; ?>
                         </select>
                     </div>
-
                 </div>
                 <div class="row mb-3">
                     <label for="employee_name" class="col-sm-2 col-form-label">Nama Karyawan</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="employee_name" name="employee_name" required value="<?= $employee['employee_name']; ?>">
+                        <input type="text" class="form-control" id="employee_name" name="employee_name" required value="<?= esc($employee['employee_name'] ?? ''); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="employee_address" class="col-sm-2 col-form-label">Alamat Karyawan</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="employee_address" name="employee_address" required value="<?= $employee['employee_address']; ?>">
+                        <input type="text" class="form-control" id="employee_address" name="employee_address" required value="<?= esc($employee['employee_address'] ?? ''); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="employee_position" class="col-sm-2 col-form-label">Jabatan Karyawan</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="employee_position" name="employee_position" required value="<?= $employee['employee_position']; ?>">
+                        <input type="text" class="form-control" id="employee_position" name="employee_position" required value="<?= esc($employee['employee_position'] ?? ''); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="employee_email" class="col-sm-2 col-form-label">Email Karyawan</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="employee_email" name="employee_email" required value="<?= $employee['employee_email']; ?>">
+                        <input type="text" class="form-control" id="employee_email" name="employee_email" required value="<?= esc($employee['employee_email'] ?? ''); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="employee_phone" class="col-sm-2 col-form-label">No. Telephone</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="employee_phone" name="employee_phone" value="<?= $employee['employee_phone']; ?>">
+                        <input type="number" class="form-control" id="employee_phone" name="employee_phone" value="<?= esc($employee['employee_phone'] ?? ''); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -90,25 +92,8 @@
 
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label">Status</label>
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="status_active" name="is_active" value="1" <?= $employee['is_active'] == 1 ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="status_active">
-                                Active
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="status_non_active" name="is_active" value="0" <?= $employee['is_active'] == 0 ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="status_non_active">
-                                Non-Active
-                            </label>
-                        </div>
-                    </div>
-                </div>
                 <br>
-                <a href="<?= base_url() ?>employees" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/profile') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
@@ -117,4 +102,5 @@
         </div>
     </div>
 </section>
+
 <?= $this->endSection() ?>

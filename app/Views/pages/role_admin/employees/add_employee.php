@@ -8,8 +8,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>employees" style="text-color: black">Karyawan</a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/employees') ?>" style="text-color: black">Karyawan</a></li>
                     <li class="breadcrumb-item"><span>Tambah Karyawan</span></li>
                 </ol>
             </div>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/employees/save" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('admin/employees/save') ?>" method="POST" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <br>
-                <a href="<?= base_url() ?>employees" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/employees') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>

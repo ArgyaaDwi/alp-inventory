@@ -9,15 +9,14 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url() ?>category" style="text-color: black">Kategori</a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/category') ?>" style="text-color: black">Kategori</a></li>
                     <li class="breadcrumb-item"><span>Tambah Kategori</span></li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
-
 <section class="content">
     <div class="card">
         <div class="card-header">
@@ -28,7 +27,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="/category/save" method="POST">
+            <form action="<?= base_url('admin/category/save')?>" method="POST">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
                     <label for="category_name" class="col-sm-2 col-form-label">Nama Kategori</label>
@@ -42,7 +41,7 @@
                         <textarea class="form-control" id="category_description" name="category_description" placeholder="Masukkan Deskripsi Terkait Kategori"></textarea>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>category" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/category') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>

@@ -16,15 +16,13 @@ class EmployeeSeeder extends Seeder
                 'employee_address' => $faker->address(),
                 'employee_position' => $faker->jobTitle(),
                 'employee_email' => $faker->email(),
+                'employee_password' => 123456,
                 'employee_phone' => $faker->phoneNumber(),
                 'employee_image' => $faker->imageUrl(),
-                'id_department' => $faker->numberBetween(1, 9),
+                'id_department' => $faker->numberBetween(1, 19),
                 'id_role' => 2,
-                'is_active' => $faker->boolean(1),
+                'is_active' =>  1,
                 'created_at' => \CodeIgniter\I18n\Time::now(),
-
-
-
             ];
 
             $this->db->table('employees')->insert($data);

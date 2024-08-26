@@ -24,7 +24,7 @@ class Auth extends BaseController
     {
         return view('auth/register');
     }
-    public function registerUser()
+    public function registerProcess()
     {
         $rules = [
             'employee_name' => 'required',
@@ -38,29 +38,83 @@ class Auth extends BaseController
             log_message('error', 'Validation errors: ' . print_r($errors, true));
             return redirect()->back()->withInput()->with('errors', $errors);
         }
-
         $data = [
             'employee_name' => $this->request->getPost('employee_name'),
             'employee_email' => $this->request->getPost('employee_email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
+            'employee_password' => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
             'id_role' => 2,
             'is_active' => 1,
             'created_at' => Time::now(),
         ];
-
         try {
             $this->employeeModel->save($data);
-            session()->setFlashdata('success', "Akun berhasil dibuat untuk <strong>{$data['full_name']}</strong>!");
+            session()->setFlashdata('success', "Akun <strong>{$data['employee_name']}</strong>! berhasil dibuat\n silahkan login!");
         } catch (\Exception $e) {
             log_message('error', 'Error saat membuat akun: ' . $e->getMessage());
             return redirect()->back()->with('errors', 'Terjadi kesalahan saat membuat akun');
         }
-
-        return redirect()->to('/login');
+        return redirect()->to('/register');
     }
-
     public function login()
     {
+        if (session()->get('employee_id')) {
+            return redirect()->to('/admin');
+        }
         return view('auth/login');
+    }
+
+    public function loginProcess()
+    {
+        $rules = [
+            'employee_email' => 'required|valid_email',
+            'employee_password' => 'required'
+        ];
+        if (!$this->validate($rules)) {
+            $errors = $this->validator->getErrors();
+            log_message('error', 'Validation errors: ' . print_r($errors, true));
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+        $employee_email = $this->request->getPost('employee_email');
+        $password = $this->request->getPost('employee_password');
+        $employee = $this->employeeModel->where('employee_email', $employee_email)->first();
+        if ($employee && password_verify($password, $employee['employee_password'])) {
+
+            session()->set([
+                'employee_id' => $employee['id'],
+                'employee_name' => $employee['employee_name'],
+                'employee_badge' => $employee['employee_badge'],
+                'employee_address' => $employee['employee_address'],
+                'employee_position' => $employee['employee_position'],
+                'employee_email' => $employee['employee_email'],
+                'employee_phone' => $employee['employee_phone'],
+                'employee_image' => $employee['employee_image'],
+                'id_department' => $employee['id_department'],
+                'id_role' => $employee['id_role'],
+                'created_at' => $employee['created_at'],
+                'updated_at' => $employee['updated_at'],
+                'isLoggedIn' => true
+            ]);
+            session()->setFlashdata('success', "Login Berhasil");
+            if ($employee['id_role'] == 1) {
+                return redirect()->to('/admin');
+            } elseif ($employee['id_role'] == 2) {
+                return redirect()->to('/user');
+            } else {
+                return redirect()->to('/login');
+            }
+        } else {
+            session()->setFlashdata('errors', ['Email atau password salah.']);
+            return redirect()->back()->withInput();
+        }
+    }
+    public function logout()
+    {
+        // session()->setTempdata('success', 'Logout Berhasil', 5); // Simpan data selama 5 detik
+
+        session()->setFlashdata('success', 'Logout Berhasil');
+        session()->destroy();
+
+        return redirect()->to('/login');
+        // return redirect()->to('/login')->withCookies();
     }
 }

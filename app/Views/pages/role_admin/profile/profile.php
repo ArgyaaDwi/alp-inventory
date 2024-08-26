@@ -8,11 +8,30 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><span>Profile</span></li>
                 </ol>
             </div>
         </div>
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                <?= session()->getFlashdata('success'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('errors')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i> Kesalahan!</h5>
+                <?= implode('<br>', session()->getFlashdata('errors')) ?>
+            </div>
+        <?php endif; ?>
+
     </div>
 </section>
 
@@ -37,30 +56,54 @@
                                         <div class="col-12">
                                             <div class="card bg-light d-flex flex-fill">
                                                 <div class="card-header text-muted border-bottom-0">
-                                                    <h4> MCE</h4>
+                                                    <h4> <?= $user['department_name'] ?? '-' ?></h4>
                                                 </div>
+
                                                 <div class="card-body d-flex flex-column pt-3">
                                                     <div class="row flex-grow-1">
                                                         <div class="col-7">
-                                                            <h2 class="lead mt-8"><b>Pak Firril</b></h2>
-                                                            <p class="text-muted text-sm"><b>About: </b> Web Designer / UX / Graphic Artist / Coffee Lover </p>
+                                                            <h2 class="lead mt-8"><b><?= session()->get('employee_name') ?? '-' ?> / <?= session()->get('employee_id') ?? '-' ?></b></h2>
+
+                                                            <p class="text-muted text-sm"><b>Posisi: </b> <?= esc($user['employee_position'] ?? '-'); ?></p>
                                                             <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
-                                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: + 800 - 12 12 23 52</li>
+                                                                <li class="small"><span class="fa-li"><i class="fa-regular fa-id-badge"></i></span>Badge: <?= esc($user['employee_badge'] ?? '-'); ?></li>
+                                                                <li class="small"><span class="fa-li"><i class="fa-solid fa-location-dot"></i></span> Alamat: <?= esc($user['employee_address'] ?? '-'); ?></li>
+                                                                <li class="small"><span class="fa-li"><i class="fa-regular fa-envelope"></i></span> Email: <?= esc($user['employee_email'] ?? '-'); ?></li>
+                                                                <li class="small"><span class="fa-li"><i class="fa-solid fa-square-phone"></i></span> No. Telepon: <?= esc($user['employee_phone'] ?? '-'); ?></li>
                                                             </ul>
+                                                            <br>
+                                                            <p class="text-muted text-sm">
+                                                                <b>Bergabung Sejak: </b> <?= esc($user['created_at'] ?? '-'); ?> | <?= esc($sinceCreate ?? '-'); ?>
+                                                            </p>
+                                                            <p class="text-muted text-sm">
+                                                                <b>Terakhir Diperbarui: </b> <?= esc($user['updated_at'] ?? '-'); ?> | <?= esc($sinceUpdate ?? '-'); ?>
+                                                            </p>
+
+                                                            <br>
                                                         </div>
+
                                                         <div class="col-5 text-center">
-                                                            <img src="<?= base_url() ?>/images/user.jpg" alt="user-avatar" class="img-circle img-fluid">
+                                                            <img src="<?= esc($user['employee_image'] ?? '-'); ?>" alt="user-avatar" class="img-circle img-fluid">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="text-left">
-                                                        <a href="#" class="btn btn-sm btn-primary">
-                                                            Update Profil
-                                                        </a>
+                                                        <?php
+                                                        $id_department = session()->get('id_department');
+                                                        $employee_position = session()->get('employee_position');
+                                                        $employee_badge = session()->get('employee_badge');
+                                                        $employee_address = session()->get('employee_address');
+                                                        $employee_phone = session()->get('employee_phone');
+                                                        if (empty($id_department) || empty($employee_position) || empty($employee_badge) || empty($employee_address) || empty($employee_phone)) {
+                                                            echo '<a href="<a href="' . base_url('admin/profile/edit') . '" class="btn btn-sm btn-warning"><i class="fa-solid fa-list-check"></i> Lengkapi Data</a>';
+                                                        } else {
+                                                            echo '<a href="' . base_url('admin/profile/edit') . '" class="btn btn-sm btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>';
+                                                        }
+                                                        ?>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>

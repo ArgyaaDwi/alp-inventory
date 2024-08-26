@@ -42,7 +42,7 @@ class ProductController extends ResourceController
             'products' => $this->productModel->getProducts()
         ];
         // $products = $this->productModel->getProducts();
-        return view('pages/product', $data);
+        return view('pages/role_admin/product/product', $data);
     }
     public function getImage($filename)
     {
@@ -76,7 +76,7 @@ class ProductController extends ResourceController
         // $status = $this->statusModel->findAll();
         // $products = $this->productModel->getProducts();
 
-        return view('pages/product/add_product', $data);
+        return view('pages/role_admin/product/add_product', $data);
     }
     public function saveProduct()
     {
@@ -166,7 +166,7 @@ class ProductController extends ResourceController
             'sinceUpdate' => $sinceUpdate
         ];
 
-        return view('pages/product/detail_product', $data);
+        return view('pages/role_admin/product/detail_product', $data);
     }
     private function formatDifference($difference)
     {
@@ -204,7 +204,7 @@ class ProductController extends ResourceController
         ];
         $productID = $this->productModel->find($id);
         $status = $this->statusModel->findAll();
-        return view('pages/product/edit_product', [
+        return view('pages/role_admin/product/edit_product', [
             'categories' => $this->kategoriModel->findAll(),
             'product' => $productID,
             'status' => $status,
@@ -273,9 +273,6 @@ class ProductController extends ResourceController
 
         return redirect()->to('/product');
     }
-
-
-
     public function deleteProduct($id)
     {
         $product = $this->productModel->find($id);
@@ -286,7 +283,6 @@ class ProductController extends ResourceController
         } else {
             session()->setFlashdata('error', "Produk tidak ditemukan.");
         }
-
         return redirect()->to('/product');
     }
 }

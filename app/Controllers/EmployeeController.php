@@ -33,8 +33,9 @@ class EmployeeController extends BaseController
             'currentDate' => $currentDate,
             'employee' => $this->employeeModel->getEmployees(),
         ];
-        return view('pages/employees/employee', $data);
+        return view('pages/role_admin/employees/employee', $data);
     }
+
     public function viewEmployee($id)
     {
         $locale = 'id_ID';
@@ -46,26 +47,38 @@ class EmployeeController extends BaseController
         );
         $currentDate = $formatter->format(new \DateTime());
         $employee = $this->employeeModel->getEmployeeWithDepartment($id);
-        $createdTime = Time::parse($employee['created_at']);
-        $now = Time::now();
-        $differenceCreate = $createdTime->difference($now);
+        $createdTime = null;
+        $sinceCreate = '-';
         $sinceUpdate = '-';
-        if (!is_null($employee['updated_at'])) {
-            $updatedTime = Time::parse($employee['updated_at']);
-            $differenceUpdate = $updatedTime->difference($now);
-            $sinceUpdate = $this->formatDifference($differenceUpdate);
+        if ($employee) {
+            if (!is_null($employee['created_at'])) {
+                $createdTime = Time::parse($employee['created_at']);
+                $now = Time::now();
+                $differenceCreate = $createdTime->difference($now);
+                $sinceCreate = $this->formatDifference($differenceCreate);
+            }
+            if (!is_null($employee['updated_at'])) {
+                $updatedTime = Time::parse($employee['updated_at']);
+                $differenceUpdate = $updatedTime->difference($now);
+                $sinceUpdate = $this->formatDifference($differenceUpdate);
+            }
+        } else {
+            $employee = [
+                'id' => '',
+                'employee_name' => 'Data tidak tersedia',
+                'created_at' => '',
+                'updated_at' => '',
+            ];
         }
-        $sinceCreate = $this->formatDifference($differenceCreate);
-
         $data = [
             'currentDate' => $currentDate,
             'employee' => $employee,
             'sinceCreate' => $sinceCreate,
             'sinceUpdate' => $sinceUpdate
         ];
-
-        return view('pages/employees/detail_employee', $data);
+        return view('pages/role_admin/employees/detail_employee', $data);
     }
+
     private function formatDifference($difference)
     {
         if ($difference->getYears() > 0) {
@@ -84,16 +97,34 @@ class EmployeeController extends BaseController
             return 'Beberapa detik yang lalu';
         }
     }
+    // public function getImage($filename)
+    // {
+    //     $path = WRITEPATH . 'uploads/' . $filename;
+
+    //     if (file_exists($path)) {
+    //         return $this->response->download($path, null, true);
+    //     }
+
+    //     throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' not found');
+    // }
     public function getImage($filename)
     {
         $path = WRITEPATH . 'uploads/' . $filename;
 
         if (file_exists($path)) {
-            return $this->response->download($path, null, true);
+            // Get the MIME type of the file
+            $mimeType = mime_content_type($path);
+
+            // Send the file with appropriate headers
+            return $this->response
+                ->setHeader('Content-Type', $mimeType)
+                ->setHeader('Content-Disposition', 'inline')
+                ->setBody(file_get_contents($path));
         }
 
         throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' not found');
     }
+
     public function addEmployee()
     {
         $locale = 'id_ID';
@@ -109,7 +140,7 @@ class EmployeeController extends BaseController
             'currentDate' => $currentDate,
             'departments' => $this->departmentModel->findAll(),
         ];
-        return view('pages/employees/add_employee', $data);
+        return view('pages/role_admin/employees/add_employee', $data);
     }
     public function saveEmployee()
     {
@@ -160,7 +191,7 @@ class EmployeeController extends BaseController
             return redirect()->back()->with('errors', 'Terjadi kesalahan saat menambahkan karyawan');
         }
 
-        return redirect()->to('/employees');
+        return redirect()->to('/admin/employees');
     }
     public function editEmployee($id)
     {
@@ -178,7 +209,7 @@ class EmployeeController extends BaseController
             'employee' => $this->employeeModel->find($id),
             'departments' => $this->departmentModel->findAll(),
         ];
-        return view('pages/employees/edit_employee', $data);
+        return view('pages/role_admin/employees/edit_employee', $data);
     }
     public function updateEmployee($id)
     {
@@ -205,15 +236,7 @@ class EmployeeController extends BaseController
         }
 
         $image = $this->request->getFile('employee_image');
-        // if ($image->getError() == 4) {
-        //     $imageName = $this->request->getPost('old_image');
-        // } else {
-        //     $imageName = $image->getRandomName();
-        //     $image->move(WRITEPATH . 'uploads/', $imageName);
-        //     if ($this->request->getPost('old_image') != 'default.jpg') {
-        //         unlink(WRITEPATH . 'uploads/' . $this->request->getPost('old_image'));
-        //     }
-        // }
+
         if ($image && $image->isValid()) {
             if (!empty($product['employee_image']) && file_exists(WRITEPATH . 'uploads/' . $employee['employee_image'])) {
                 unlink(WRITEPATH . 'uploads/' . $employee['employee_image']);
@@ -243,8 +266,23 @@ class EmployeeController extends BaseController
             return redirect()->back()->with('errors', 'Terjadi kesalahan saat memperbarui karyawan');
         }
 
-        return redirect()->to('/employees');
+        return redirect()->to('/admin/employees');
     }
+    public function statusChanger($id)
+    {
+        $employee = $this->employeeModel->find($id);
+
+        if ($employee) {
+            $newStatus = $employee['is_active'] == 1 ? 0 : 1;
+            $statusText = $newStatus == 1 ? '(aktif)' : '(nonaktif)';
+            $this->employeeModel->update($id, ['is_active' => $newStatus]);
+            session()->setFlashdata('success', "Status karyawan <strong style='color: darkgreen;'>{$employee['employee_name']}</strong> berhasil diubah menjadi <strong style='color: darkgreen;'>{$statusText}</strong>");
+            return redirect()->to('/admin/employees');
+        }
+        session()->setFlashdata('error', 'Karyawan tidak ditemukan.');
+        return redirect()->to('/admin/employees');
+    }
+
     public function deleteEmployee($id)
     {
         $employee = $this->employeeModel->find($id);
@@ -255,6 +293,6 @@ class EmployeeController extends BaseController
         } else {
             session()->setFlashdata('error', "Karyawan tidak ditemukan.");
         }
-        return redirect()->to('/employees');
+        return redirect()->to('/admin/employees');
     }
 }

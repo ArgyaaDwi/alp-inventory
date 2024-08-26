@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Dashboard</h1>
+                <h1><b>Dashboard</b></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -14,6 +14,18 @@
                         </a></li>
                 </ol>
             </div>
+            <?php if (session()->getFlashdata('success')) : ?>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: '<?= session()->getFlashdata('success'); ?>',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#00008B'
+                    });
+                </script>
+            <?php endif; ?>
         </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -36,7 +48,7 @@
                 <div class="icon">
                     <i class="nav-icon fas fa-list"></i>
                 </div>
-                <a href="<?= base_url() ?>category" class="small-box-footer">
+                <a href="<?= base_url('admin/category') ?>" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -46,7 +58,7 @@
             <!-- small card -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3><?= $productCount; ?><sup style="font-size: 20px"></sup></h3>
+                    <h3>1</h3>
 
                     <p>Produk</p>
                 </div>
@@ -54,7 +66,7 @@
                     <i class="nav-icon fas fa-ellipsis-h"></i>
 
                 </div>
-                <a href="<?= base_url() ?>product" class="small-box-footer">
+                <a href="<?= base_url('admin/product') ?>" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>

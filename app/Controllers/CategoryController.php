@@ -37,7 +37,7 @@ class CategoryController extends ResourceController
         ];
         // $category = $this->kategoriModel->findAll();
 
-        return view('pages/category', $data);
+        return view('pages/role_admin/category/category', $data);
     }
     // Method addProduct ini akan menampilkan halaman tambah category
     public function viewCategory($id)
@@ -55,7 +55,7 @@ class CategoryController extends ResourceController
             'currentDate' => $currentDate,
             'category' => $this->kategoriModel->find($id),
         ];
-        return view('pages/category/detail_category', $data);
+        return view('pages/role_admin/category/detail_category', $data);
     }
     public function addCategory()
     {
@@ -71,7 +71,7 @@ class CategoryController extends ResourceController
         $data = [
             'currentDate' => $currentDate,
         ];
-        return view('pages/category/add_category', $data);
+        return view('pages/role_admin/category/add_category', $data);
     }
     // Method saveCategory ini akan menyimpan data category baru
     public function saveCategory()
@@ -83,7 +83,7 @@ class CategoryController extends ResourceController
             'created_at' => Time::now(),
         ]);
         session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$categoryName}</strong> berhasil ditambahkan!");
-        return redirect()->to('/category');
+        return redirect()->to('/admin/category');
     }
     public function editCategory($id)
     {
@@ -101,7 +101,7 @@ class CategoryController extends ResourceController
             'category' =>  $this->kategoriModel->find($id),
 
         ];
-        return view('pages/category/edit_category', $data);
+        return view('pages/role_admin/category/edit_category', $data);
     }
     public function updateCategory($id)
     {
@@ -112,7 +112,7 @@ class CategoryController extends ResourceController
 
         ]);
         session()->setFlashdata('success', "Data berhasil diubah!");
-        return redirect()->to('/category');
+        return redirect()->to('/admin/category');
     }
 
     public function deleteCategory($id)
@@ -126,6 +126,6 @@ class CategoryController extends ResourceController
             session()->setFlashdata('error', "Kategori tidak ditemukan.");
         }
 
-        return redirect()->to('/category');
+        return redirect()->to('/admin/category');
     }
 }
