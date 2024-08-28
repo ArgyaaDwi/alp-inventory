@@ -220,4 +220,18 @@ class MainController extends ResourceController
 
         return redirect()->to('/admin/profile');
     }
+    public function getImage($filename)
+    {
+        $path = WRITEPATH . 'uploads/' . $filename;
+
+        if (file_exists($path)) {
+            $mimeType = mime_content_type($path);
+            return $this->response
+                ->setHeader('Content-Type', $mimeType)
+                ->setHeader('Content-Disposition', 'inline')
+                ->setBody(file_get_contents($path));
+        }
+
+        throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' not found');
+    }
 }

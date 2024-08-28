@@ -7,14 +7,17 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\CategoryModel;
 use App\Models\ProductModel;
 use App\Models\StatusModel;
+use App\Models\BrandModel;
+use App\Models\ProductStockModel;
 use Config\Database;
 
 class ProductController extends ResourceController
 {
-    // properti untuk menyimpan instance dari model CategoryModel dan ProductModel.
     protected $kategoriModel;
     protected $productModel;
     protected $statusModel;
+    protected $brandModel;
+    protected $product_stocksModel;
     protected $db;
     // Method yang akan otomatis dijalankan ketika sebuah instance dari controller ini dibuat.
     public function __construct()
@@ -22,13 +25,14 @@ class ProductController extends ResourceController
         $this->productModel = new ProductModel();
         $this->kategoriModel = new CategoryModel();
         $this->statusModel = new StatusModel();
+        $this->brandModel = new BrandModel();
+        $this->product_stocksModel = new ProductStockModel();
         $this->db = Database::connect(); // Inisialisasi koneksi database
 
     }
-    // Method index ini akan menampilkan semua data product dari database.
     public function index()
     {
-        $locale = 'id_ID'; // Locale Bahasa Indonesia
+        $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
             $locale,
             \IntlDateFormatter::FULL,
@@ -36,20 +40,27 @@ class ProductController extends ResourceController
             'Asia/Jakarta'
         );
         $tanggal = new \DateTime();
-        $currentDate = $formatter->format($tanggal); // Format tanggal
+        $currentDate = $formatter->format($tanggal);
+        $products = $this->productModel->getProducts();
+        foreach ($products as &$product) {
+            $product['stock_details'] = $this->product_stocksModel->getProductWithStockDetails($product['id']);
+        }
         $data = [
             'currentDate' => $currentDate,
-            'products' => $this->productModel->getProducts()
+            'products' => $products,
         ];
-        // $products = $this->productModel->getProducts();
         return view('pages/role_admin/product/product', $data);
     }
+
     public function getImage($filename)
     {
         $path = WRITEPATH . 'uploads/' . $filename;
-
         if (file_exists($path)) {
-            return $this->response->download($path, null, true);
+            $mimeType = mime_content_type($path);
+            return $this->response
+                ->setHeader('Content-Type', $mimeType)
+                ->setHeader('Content-Disposition', 'inline')
+                ->setBody(file_get_contents($path));
         }
 
         throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' not found');
@@ -57,7 +68,7 @@ class ProductController extends ResourceController
     // Method addProduct ini akan menampilkan halaman tambah produk
     public function addProduct()
     {
-        $locale = 'id_ID'; // Locale Bahasa Indonesia
+        $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
             $locale,
             \IntlDateFormatter::FULL,
@@ -70,12 +81,8 @@ class ProductController extends ResourceController
         $data = [
             'currentDate' => $currentDate,
             'categories' => $this->kategoriModel->findAll(),
-            'status' => $this->statusModel->findAll()
+            'brands' => $this->brandModel->findAll(),
         ];
-        // $categories = $this->kategoriModel->findAll();
-        // $status = $this->statusModel->findAll();
-        // $products = $this->productModel->getProducts();
-
         return view('pages/role_admin/product/add_product', $data);
     }
     public function saveProduct()
@@ -83,29 +90,17 @@ class ProductController extends ResourceController
         $productName = $this->request->getVar('product_name');
         $rules = [
             'product_name' => 'required',
-            'brand_name' => 'required',
-            'description' => 'required',
-            'price' => 'required|decimal',
+            'id_brand' => 'required',
+            'product_description' => 'required',
+            'product_price' => 'required|decimal',
             'product_image' => [
                 'rules' => 'uploaded[product_image]|max_size[product_image,1024]|is_image[product_image]|mime_in[product_image,image/jpg,image/jpeg,image/png]',
                 'label' => 'Product Image'
             ],
             'id_category' => 'required',
-            'id_status' => 'required',
-            'stock' => 'required|integer',
         ];
-        if ($this->request->getVar('id_status') == 2) {
-            $rules['damage_description'] = 'required|string';
-        }
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-        $id_status = (int)$this->request->getVar('id_status');
-        // Check if id_status exists in the status table
-        $statusExists = $this->db->table('status')->where('id', $id_status)->countAllResults();
-        if ($statusExists === 0) {
-            log_message('error', 'Invalid id_status: ' . $id_status);
-            return redirect()->back()->with('error', 'Status tidak valid.');
         }
         // Process the image upload
         $image = $this->request->getFile('product_image');
@@ -113,18 +108,16 @@ class ProductController extends ResourceController
         $image->move(WRITEPATH . 'uploads', $imageName);
         $data = [
             'product_name' => $this->request->getVar('product_name'),
-            'brand_name' => $this->request->getVar('brand_name'),
-            'description' => $this->request->getVar('description'),
-            'price' => $this->request->getVar('price'),
+            'id_brand' => $this->request->getVar('id_brand'),
+            'product_description' => $this->request->getVar('product_description'),
+            'product_price' => $this->request->getVar('product_price'),
             'product_image' => $imageName,
             'id_category' => $this->request->getVar('id_category'),
-            'id_status' => $id_status,
-            'damage_description' => $this->request->getVar('damage_description'),
-            'stock' => $this->request->getVar('stock'),
+            'created_at' => \CodeIgniter\I18n\Time::now(),
+            // 'damage_description' => $this->request->getVar('damage_description'),
+            // 'stock' => $this->request->getVar('stock'),
         ];
-        // Log the data for debugging
         log_message('debug', 'Data to be saved: ' . print_r($data, true));
-        // Save the data to the database
         try {
             $this->productModel->save($data);
             session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$productName}</strong> berhasil ditambahkan!");
@@ -132,9 +125,193 @@ class ProductController extends ResourceController
             log_message('error', 'Error saat menyimpan produk: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan produk.');
         }
-        return redirect()->to('/product');
+        return redirect()->to('/admin/product');
     }
+
+    public function createProductStock()
+    {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
+
+        $data = [
+            'currentDate' => $currentDate,
+            'status' => $this->statusModel->findAll(),
+            'products' => $this->productModel->findAll(),
+        ];
+        return view('pages/role_admin/product/create_product_stock', $data);
+    }
+    public function saveProductStock()
+    {
+        // $productName = $this->request->getVar('product_name');
+        $rules = [
+            'id_product' => 'required',
+            'item_code' => 'required',
+            'id_status' => 'required',
+            'quantity' => 'required|decimal',
+
+            'damage_description' => 'required',
+        ];
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = [
+            'id_product' => $this->request->getVar('id_product'),
+            'item_code' => $this->request->getVar('item_code'),
+            'id_status' => $this->request->getVar('id_status'),
+            'quantity' => $this->request->getVar('quantity'),
+            'damage_description' => $this->request->getVar('damage_description'),
+            'created_at' => \CodeIgniter\I18n\Time::now(),
+
+        ];
+        log_message('debug', 'Data to be saved: ' . print_r($data, true));
+        try {
+            $this->product_stocksModel->save($data);
+            session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>wir</strong> berhasil ditambahkan!");
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat menyimpan produk: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan stok.');
+        }
+        return redirect()->to('/admin/product');
+    }
+    // public function viewProduct($id)
+    // {
+    //     $locale = 'id_ID';
+    //     $formatter = new \IntlDateFormatter(
+    //         $locale,
+    //         \IntlDateFormatter::FULL,
+    //         \IntlDateFormatter::NONE,
+    //         'Asia/Jakarta'
+    //     );
+    //     $tanggal = new \DateTime();
+    //     $currentDate = $formatter->format($tanggal);
+    //     $product = $this->productModel->getProducts();
+    //     if (!$product) {
+    //         throw new \CodeIgniter\Exceptions\PageNotFoundException("Produk dengan ID $id tidak ditemukan.");
+    //     }
+    //     $createdTime = \CodeIgniter\I18n\Time::parse($product['created_at']);
+    //     $now = \CodeIgniter\I18n\Time::now();
+    //     $differenceCreate = $createdTime->difference($now);
+    //     $sinceUpdate = '-';
+    //     if (!is_null($product['updated_at'])) {
+    //         $updatedTime = \CodeIgniter\I18n\Time::parse($product['updated_at']);
+    //         $differenceUpdate = $updatedTime->difference($now);
+    //         $sinceUpdate = $this->formatDifference($differenceUpdate);
+    //     }
+    //     $sinceCreate = $this->formatDifference($differenceCreate);
+    //     $data = [
+    //         'currentDate' => $currentDate,
+    //         'product' => $product,
+    //         'sinceCreate' => $sinceCreate,
+    //         'sinceUpdate' => $sinceUpdate
+    //     ];
+
+    //     return view('pages/role_admin/product/detail_product', $data);
+    // }
+    // public function viewProduct($id)
+    // {
+    //     $locale = 'id_ID';
+    //     $formatter = new \IntlDateFormatter(
+    //         $locale,
+    //         \IntlDateFormatter::FULL,
+    //         \IntlDateFormatter::NONE,
+    //         'Asia/Jakarta'
+    //     );
+    //     $tanggal = new \DateTime();
+    //     $currentDate = $formatter->format($tanggal);
+
+    //     // Ambil data produk termasuk kategori dan brand
+    //     $product = $this->productModel->getProductWithCategoryAndBrand($id);
+
+    //     // Temukan produk dengan ID yang sesuai
+
+    //     $products = $this->product_stocksModel->getProductWithStockDetails($id);
+    //     // Pastikan produk ditemukan
+    //     if (empty($product)) {
+    //         throw new \CodeIgniter\Exceptions\PageNotFoundException("Produk dengan ID $id tidak ditemukan.");
+    //     }
+
+    //     $product = array_shift($product); // Ambil produk pertama dari hasil filter
+
+    //     $createdTime = \CodeIgniter\I18n\Time::parse($product['created_at']);
+    //     $now = \CodeIgniter\I18n\Time::now();
+    //     $differenceCreate = $createdTime->difference($now);
+    //     $sinceUpdate = '-';
+    //     if (!is_null($product['updated_at'])) {
+    //         $updatedTime = \CodeIgniter\I18n\Time::parse($product['updated_at']);
+    //         $differenceUpdate = $updatedTime->difference($now);
+    //         $sinceUpdate = $this->formatDifference($differenceUpdate);
+    //     }
+    //     $sinceCreate = $this->formatDifference($differenceCreate);
+
+    //     $data = [
+    //         'currentDate' => $currentDate,
+    //         'product' => $product,
+    //         'products' => $products,
+    //         'sinceCreate' => $sinceCreate,
+    //         'sinceUpdate' => $sinceUpdate
+    //     ];
+
+    //     return view('pages/role_admin/product/detail_product', $data);
+    // }
     public function viewProduct($id)
+    {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
+
+        // Ambil data produk termasuk kategori dan brand
+        $product = $this->productModel->getProductWithCategoryAndBrand($id);
+
+        // Ambil detail stok produk
+        $stockDetails = $this->product_stocksModel->getProductWithStockDetailes($id);
+
+        // Pastikan produk ditemukan
+        if (!$product) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Produk dengan ID $id tidak ditemukan.");
+        }
+
+        // Menggabungkan data produk dengan detail stok
+        $product['total_stock'] = $stockDetails['total_stock'];
+        $product['good_stock'] = $stockDetails['good_stock'];
+        $product['partial_damage_stock'] = $stockDetails['partial_damage_stock'];
+        $product['damaged_stock'] = $stockDetails['damaged_stock'];
+
+        // Format waktu
+        $createdTime = \CodeIgniter\I18n\Time::parse($product['created_at']);
+        $now = \CodeIgniter\I18n\Time::now();
+        $differenceCreate = $createdTime->difference($now);
+        $sinceUpdate = '-';
+        if (!is_null($product['updated_at'])) {
+            $updatedTime = \CodeIgniter\I18n\Time::parse($product['updated_at']);
+            $differenceUpdate = $updatedTime->difference($now);
+            $sinceUpdate = $this->formatDifference($differenceUpdate);
+        }
+        $sinceCreate = $this->formatDifference($differenceCreate);
+
+        $data = [
+            'currentDate' => $currentDate,
+            'product' => $product,
+            'sinceCreate' => $sinceCreate,
+            'sinceUpdate' => $sinceUpdate
+        ];
+
+        return view('pages/role_admin/product/detail_product', $data);
+    }
+    public function showEditProductStockForm($id)
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -149,25 +326,20 @@ class ProductController extends ResourceController
         if (!$product) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Produk dengan ID $id tidak ditemukan.");
         }
-        $createdTime = \CodeIgniter\I18n\Time::parse($product['created_at']);
-        $now = \CodeIgniter\I18n\Time::now();
-        $differenceCreate = $createdTime->difference($now);
-        $sinceUpdate = '-';
-        if (!is_null($product['updated_at'])) {
-            $updatedTime = \CodeIgniter\I18n\Time::parse($product['updated_at']);
-            $differenceUpdate = $updatedTime->difference($now);
-            $sinceUpdate = $this->formatDifference($differenceUpdate);
-        }
-        $sinceCreate = $this->formatDifference($differenceCreate);
+        $productStocks = $this->product_stocksModel
+            ->select('product_stocks.*, status.status_name')
+            ->join('status', 'product_stocks.id_status = status.id')
+            ->where('product_stocks.id_product', $id)
+            ->findAll();
         $data = [
             'currentDate' => $currentDate,
-            'product' => $product,
-            'sinceCreate' => $sinceCreate,
-            'sinceUpdate' => $sinceUpdate
+            'product'       => $product,
+            'productStocks' => $productStocks,
         ];
 
-        return view('pages/role_admin/product/detail_product', $data);
+        return view('pages/role_admin/product/stock', $data);
     }
+
     private function formatDifference($difference)
     {
         if ($difference->getYears() > 0) {
@@ -198,18 +370,13 @@ class ProductController extends ResourceController
         $tanggal = new \DateTime();
         $currentDate = $formatter->format($tanggal);
         $data = [
+            'categories' => $this->kategoriModel->findAll(),
+            'brands' => $this->brandModel->findAll(),
             'currentDate' => $currentDate,
-            'productID' => $this->productModel->find($id),
+            'product' => $this->productModel->find($id),
             'status' => $this->statusModel->findAll(),
         ];
-        $productID = $this->productModel->find($id);
-        $status = $this->statusModel->findAll();
-        return view('pages/role_admin/product/edit_product', [
-            'categories' => $this->kategoriModel->findAll(),
-            'product' => $productID,
-            'status' => $status,
-            'currentDate' => $currentDate
-        ]);
+        return view('pages/role_admin/product/edit_product', $data);
     }
 
     public function updateProduct($id)
@@ -217,52 +384,35 @@ class ProductController extends ResourceController
         $product = $this->productModel->find($id);
         $rules = [
             'product_name' => 'required',
-            'brand_name' => 'required',
-            'description' => 'required',
-            'price' => 'required|decimal',
+            'id_brand' => 'required',
+            'product_description' => 'required',
+            'product_price' => 'required|decimal',
             'id_category' => 'required',
-            'stock' => 'required|integer',
             'product_image' => [
                 'rules' => 'max_size[product_image,1024]|is_image[product_image]|mime_in[product_image,image/jpg,image/jpeg,image/png]',
                 'label' => 'Product Image'
             ]
         ];
-
-        // Tambahkan validasi untuk damage_description jika id_status adalah 2
-        $id_status = (int)$this->request->getVar('id_status');
-        if ($id_status === 2) {
-            $rules['damage_description'] = 'required|string';
-        }
-
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-
-        // Proses gambar
         $image = $this->request->getFile('product_image');
         if ($image && $image->isValid()) {
-            // Hapus gambar lama jika ada gambar baru yang diunggah
             if (!empty($product['product_image']) && file_exists(WRITEPATH . 'uploads/' . $product['product_image'])) {
                 unlink(WRITEPATH . 'uploads/' . $product['product_image']);
             }
-            // Simpan gambar baru
             $imageName = $image->getRandomName();
             $image->move(WRITEPATH . 'uploads', $imageName);
         } else {
-            // Jika tidak ada gambar baru, gunakan gambar lama
             $imageName = $product['product_image'];
         }
-        // Perbarui data produk
         try {
             $this->productModel->update($id, [
                 'product_name' => $this->request->getVar('product_name'),
-                'brand_name' => $this->request->getVar('brand_name'),
-                'description' => $this->request->getVar('description'),
-                'price' => $this->request->getVar('price'),
+                'id_brand' => $this->request->getVar('id_brand'),
+                'product_description' => $this->request->getVar('product_description'),
+                'product_price' => $this->request->getVar('product_price'),
                 'id_category' => $this->request->getVar('id_category'),
-                'id_status' => $id_status,
-                'damage_description' => $id_status === 2 ? $this->request->getVar('damage_description') : null, // Set ke null jika tidak diperlukan
-                'stock' => $this->request->getVar('stock'),
                 'product_image' => $imageName
             ]);
             session()->setFlashdata('success', "Data berhasil diubah!");
@@ -271,7 +421,7 @@ class ProductController extends ResourceController
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui produk.');
         }
 
-        return redirect()->to('/product');
+        return redirect()->to('admin/product');
     }
     public function deleteProduct($id)
     {
@@ -283,6 +433,6 @@ class ProductController extends ResourceController
         } else {
             session()->setFlashdata('error', "Produk tidak ditemukan.");
         }
-        return redirect()->to('/product');
+        return redirect()->to('/admin/product');
     }
 }

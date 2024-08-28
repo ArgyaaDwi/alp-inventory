@@ -81,9 +81,8 @@
 
                                                             <br>
                                                         </div>
-
                                                         <div class="col-5 text-center">
-                                                            <img src="<?= esc($user['employee_image'] ?? '-'); ?>" alt="user-avatar" class="img-circle img-fluid">
+                                                            <img src="<?= base_url('uploads/profile/' . esc($user['employee_image'])); ?>" alt="user-avatar" class="img-circle img-fluid" width="170">
                                                         </div>
                                                     </div>
                                                 </div>

@@ -78,13 +78,13 @@
                 <!-- Navbar Search -->
                 <li class="nav-item dropdown user-menu">
                     <a href="" class="nav-link bg-white dropdown-toggle " data-toggle="dropdown" style="background-color: #ffffff; ">
-                        <img src="<?= base_url() ?>/images/user.jpg" class="user-image img-circle elevation-2" alt="User Image">
+                        <img src="<?= base_url('uploads/profile/' . session()->get('employee_image')) ?>" class="user-image img-circle elevation-2" alt="User Image">
                         <span class="d-none d-md-inline"><?= session()->get('employee_name'); ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
+                            <img src="<?= base_url('uploads/profile/' . session()->get('employee_image')) ?>" class="img-circle elevation-2" alt="User Image">
                             <p>
                                 <?= session()->get('employee_name'); ?>
                                 <small><?= session()->get('employee_email'); ?></small>
@@ -122,7 +122,7 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="<?= base_url() ?>/images/user.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?= base_url('uploads/profile/' . session()->get('employee_image')) ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="<?= base_url('admin/profile') ?>" class="d-block"><?= session()->get('employee_name'); ?></a>
@@ -154,7 +154,7 @@
                                     Data
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
-                            </a>    
+                            </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="<?= base_url('admin/department') ?>" class="nav-link">

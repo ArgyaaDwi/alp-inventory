@@ -1,13 +1,5 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
-<?php
-$statusLabels = [
-    1 => 'Baik',
-    2 => 'Rusak Sebagian',
-    3 => 'Rusak'
-];
-$statusLabel = isset($statusLabels[$product['id_status']]) ? $statusLabels[$product['id_status']] : 'Tidak Diketahui';
-?>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -38,26 +30,25 @@ $statusLabel = isset($statusLabels[$product['id_status']]) ? $statusLabels[$prod
                 <div class="card">
                     <div class="card-body" style="display: flex; align-items: flex-start;">
                         <div style="flex-shrink: 0; margin-right: 20px;">
-                            <img src="/uploads/<?= esc($product['product_image']); ?>" width="200">
+                            <img src="<?=
+                                        base_url('uploads/product/' . esc($product['product_image'])); ?>" width="120" style="margin: 10px auto;" alt="Product Image">
                         </div>
                         <div>
                             <h3><?= esc($product['product_name']); ?></h3>
                             <p><strong>Brand:</strong> <?= esc($product['brand_name']); ?></p>
-                            <p><strong>Harga:</strong> <?= esc($product['price']); ?></p>
-                            <p><strong>Stok:</strong> <?= esc($product['stock']); ?></p>
-                            <p><strong>Deskripsi:</strong> <?= esc($product['description']); ?></p>
-                            <p><strong>Kondisi:</strong> <?= esc($statusLabel); ?></p>
-                            <?php if ($product['id_status'] == 2): ?>
-                                <p><strong>Deskripsi Kerusakan:</strong> <?= esc($product['damage_description']); ?></p>
-                            <?php endif; ?> 
+                            <p><strong>Harga:</strong> <?= esc($product['product_price']); ?></p>
+                            <p><strong>Deskripsi:</strong> <?= esc($product['product_description']); ?></p>
+                            <p><strong>Total Stok:</strong> <?= esc($product['total_stock']); ?></p>
+                            <p><strong>Total Bagus:</strong> <?= esc($product['good_stock']); ?></p>
+                            <p><strong>Total Rusak Sebagian:</strong> <?= esc($product['partial_damage_stock']); ?></p>
+                            <p><strong>Total Rusak:</strong> <?= esc($product['damaged_stock']); ?></p>
                             <p><strong>Sejak:</strong> <?= esc($product['created_at']); ?><?= ' | '; ?><?= esc($sinceCreate); ?> </p>
                             <p><strong>Update:</strong> <?= esc($product['updated_at']); ?><?= ' | '; ?><?= esc($sinceUpdate); ?> </p>
-
                         </div>
                     </div>
                 </div>
-                <a href="<?= base_url() ?>product" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
-                <a href="/product/edit/<?= $product['id']; ?>" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
+                <a href="<?= base_url('admin/product') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/product/edit/' . $product['id']); ?>" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>
             </div>
         </div>
         <div class="card-footer">

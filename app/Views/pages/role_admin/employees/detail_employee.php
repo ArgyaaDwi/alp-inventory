@@ -31,6 +31,7 @@
             <div class="container-fluid">
                 <div class="card-body d-flex flex-column">
                     <div class="row flex-grow-1">
+
                         <div class="col-12">
                             <div class="card bg-light d-flex flex-fill">
                                 <div class="card-header text-muted border-bottom-0">

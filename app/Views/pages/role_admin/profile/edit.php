@@ -85,7 +85,7 @@
                     <label for="employee_image" class="col-sm-2 col-form-label">Foto</label>
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="employee_image" name="employee_image" placeholder>
-                        <img src="/uploads/<?= esc($employee['employee_image']); ?>" width="100" class="mt-2">
+                        <img src="<?= base_url('uploads/profile/' . esc($employee['employee_image'])); ?>" width="100" class="mt-2">
                         <small class="form-text text-muted mt-2">
                             <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal.
                         </small>
@@ -102,5 +102,4 @@
         </div>
     </div>
 </section>
-
 <?= $this->endSection() ?>

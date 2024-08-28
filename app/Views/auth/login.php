@@ -12,23 +12,22 @@
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
 </head>
 
-<body class="hold-transition login-page" style="background-color: white ">
+<body class="hold-transition login-page" >
     <div class="login-box">
-        <?php if (session()->getFlashdata('success')) : ?>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <?php if (isset($_GET['logout']) && $_GET['logout'] == 'true') : ?>
             <script>
-                console.log('SweetAlert script loaded');
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: '<?= session()->getFlashdata('success'); ?>',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(function() {
-                    console.log('SweetAlert executed');
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Logout Berhasil',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#00008B'
+
+                    });
                 });
             </script>
         <?php endif; ?>
-
         <?php if (session()->getFlashdata('errors')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

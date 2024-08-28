@@ -109,12 +109,10 @@ class Auth extends BaseController
     }
     public function logout()
     {
-        // session()->setTempdata('success', 'Logout Berhasil', 5); // Simpan data selama 5 detik
 
         session()->setFlashdata('success', 'Logout Berhasil');
         session()->destroy();
 
-        return redirect()->to('/login');
-        // return redirect()->to('/login')->withCookies();
+        return redirect()->to('/login?logout=true');
     }
 }

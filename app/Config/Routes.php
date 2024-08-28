@@ -25,7 +25,13 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->delete('category/delete/(:num)', 'CategoryController::deleteCategory/$1');
     $routes->get('product', 'ProductController::index');
     $routes->get('product/create', 'ProductController::addProduct');
+    $routes->get('product/create/stock', 'ProductController::createProductStock');
+
+    $routes->get('product/edit/stock/(:num)', 'ProductController::showEditProductStockForm/$1');
+
+
     $routes->post('product/save', 'ProductController::saveProduct');
+    $routes->post('product/save/stock', 'ProductController::saveProductStock');
     // $routes->get('uploads/(:any)', 'ProductController::getImage/$1');
     $routes->get('product/detail/(:num)', 'ProductController::viewProduct/$1');
     $routes->get('product/edit/(:num)', 'ProductController::editProduct/$1');
@@ -33,7 +39,7 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->delete('product/delete/(:num)', 'ProductController::deleteProduct/$1');
     $routes->get('department', 'DepartmentController::index');
     $routes->get('department/detail/(:num)', 'DepartmentController::viewDepartment/$1');
-    $routes->get('department/create', 'DepartmentController::addDepartment');
+    $routes->get('department/create', 'DepartmentController::addDepartment');   
     $routes->post('department/save', 'DepartmentController::saveDepartment');
     $routes->get('department/edit/(:num)', 'DepartmentController::editDepartment/$1');
     $routes->post('department/update/(:num)', 'DepartmentController::updateDepartment/$1');
@@ -52,6 +58,9 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->get('employees/toggle_status/(:num)', 'EmployeeController::statusChanger/$1');
     $routes->delete('employees/delete/(:num)', 'EmployeeController::deleteEmployee/$1');
 });
+
+$routes->get('uploads/profile/(:any)', 'MainController::getImage/$1');
+$routes->get('uploads/product/(:any)', 'ProductController::getImage/$1');
 
 // $routes->get('/admin', 'MainController::dashboardAdmin');
 // $routes->get('/user', 'MainController::userPage');
