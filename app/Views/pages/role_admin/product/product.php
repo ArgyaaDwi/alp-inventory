@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><span>Produk</span></li>
                 </ol>
             </div>
@@ -40,14 +40,14 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>ID.</th>
+                        <!-- <th>ID.</th> -->
                         <th><span style="margin:0 15px">Nama Barang</span></th>
                         <th><span style="margin:0 15px">Brand</span> </th>
-                        <th>Harga</th>
+                        <!-- <th>Harga</th> -->
                         <!-- <th><span style="margin:0 15px">Gambar</span> </th> -->
                         <th><span style="margin:0 15px">Kategori</span> </th>
-                        <th><span style="margin:0 15px">Total Stok</span> </th>
-                        <th><span style="margin:0 15px">Rincian Available</span> </th>
+                        <th><span style="margin:0 15px">Stok</span> </th>
+                        <th><span style="margin:0 15px">Available</span> </th>
 
 
                         <th><span style="margin:0 15px">Aksi</span> </th>
@@ -59,10 +59,10 @@
                         <?php foreach ($products as $p) : ?>
                             <tr>
                                 <td><?= $no++; ?></td>
-                                <td><?= $p['id']; ?></td>
+                                <!-- <td><?= $p['id']; ?></td> -->
                                 <td><span style="margin:0 15px"><?= $p['product_name']; ?></span></td>
                                 <td><span style="margin:0 15px"><?= $p['brand_name']; ?></span> </td>
-                                <td><span style="margin:0 15px"></span><?= $p['product_price']; ?></td>
+                                <!-- <td><span style="margin:0 15px"></span><?= $p['product_price']; ?></td> -->
                                 <!-- <td style="padding-left: 17px; display: flex; justify-content: center; align-items: center; height: 100px;">
                                     <img src="<?=
                                                 base_url('uploads/product/' . esc($p['product_image'])); ?>" width="120" style="margin: 10px auto;" alt="Product Image">
@@ -70,12 +70,23 @@
                                 <td><span style="margin:0 15px"><?= $p['category_name']; ?></span></td>
                                 <td><?= array_sum(array_column($p['stock_details'], 'status_stock')); ?></td>
                                 <td>
-                                    <?php foreach ($p['stock_details'] as $stockDetail) : ?>
-                                        <div>
-                                        <span style="margin:0 15px">
-                                            <?= $stockDetail['status_name']; ?>: <?= $stockDetail['status_stock']; ?> (<?= $stockDetail['damage_description']; ?>)</div>
-                                        </span>
-                                    <?php endforeach; ?>
+                                    <?php
+                                    $found = false;
+                                    foreach ($p['stock_details'] as $stockDetail) :
+                                        if ($stockDetail['status_name'] == 'Bagus') :
+                                            $found = true;
+                                    ?>
+                                            <span class="badge badge-pill badge-success" style="margin:0 15px; padding:4px 13px">
+                                                <?= $stockDetail['status_stock']; ?>
+                                            </span>
+                                    <?php
+                                            break;
+                                        endif;
+                                    endforeach;
+                                    ?>
+                                    <?php if (!$found) : ?>
+                                        <span>0</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <div class="d-flex gap-1" style="margin: 10px 15px">
@@ -86,8 +97,8 @@
                                             </svg>
                                         </a>
                                         <a href="<?= base_url('admin/product/edit/' . $p['id']); ?>" class="btn btn-outline-warning"><i class="fa-regular fa-pen-to-square"></i> </a>
-                                        <a href="<?= base_url('admin/product/edit/stock/' . $p['id']); ?>" class="btn btn-dark"><i class="fa-solid fa-layer-group"></i> </a>
-                                        
+                                        <a href="<?= base_url('admin/product/edit/stock/' . $p['id']); ?>" class="btn btn-primary"><i class="fa-solid fa-arrows-rotate"></i> Update Stok</i> </a>
+
                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $p['id']; ?>"><i class="fa-solid fa-trash-can"></i></button>
                                         <div class="modal fade" id="deleteModal<?= $p['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel<?= $p['id']; ?>" aria-hidden="true">
                                             <div class="modal-dialog" role="document">

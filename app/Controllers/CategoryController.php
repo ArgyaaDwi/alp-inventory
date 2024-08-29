@@ -19,7 +19,7 @@ class CategoryController extends ResourceController
     }
     // Method index ini akan menampilkan semua data category dari database.
 
-    public function index()
+    public function viewCategory()
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -40,7 +40,7 @@ class CategoryController extends ResourceController
         return view('pages/role_admin/category/category', $data);
     }
     // Method addProduct ini akan menampilkan halaman tambah category
-    public function viewCategory($id)
+    public function detailCategory($id)
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -105,7 +105,7 @@ class CategoryController extends ResourceController
     }
     public function updateCategory($id)
     {
-        $this->kategoriModel->update($id, [ 
+        $this->kategoriModel->update($id, [
             'category_name' => $this->request->getVar('category_name'),
             'category_description' => $this->request->getVar('category_description'),
             'updated_at' => Time::now(),

@@ -82,7 +82,7 @@
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="employee_image" name="employee_image" placeholder>
                         <small class="form-text text-muted mt-2">
-                            <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal.
+                            <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal dengan maks ukuran 1MB [JPG, JPEG, PNG].
                         </small>
                     </div>
                 </div>

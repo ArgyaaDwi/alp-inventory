@@ -29,21 +29,41 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body" style="display: flex; align-items: flex-start;">
+
                         <div style="flex-shrink: 0; margin-right: 20px;">
+                            <h3>
+                                <strong><?= esc($product['product_name']); ?></strong>
+                            </h3>
                             <img src="<?=
-                                        base_url('uploads/product/' . esc($product['product_image'])); ?>" width="120" style="margin: 10px auto;" alt="Product Image">
-                        </div>
-                        <div>
-                            <h3><?= esc($product['product_name']); ?></h3>
-                            <p><strong>Brand:</strong> <?= esc($product['brand_name']); ?></p>
-                            <p><strong>Harga:</strong> <?= esc($product['product_price']); ?></p>
-                            <p><strong>Deskripsi:</strong> <?= esc($product['product_description']); ?></p>
-                            <p><strong>Total Stok:</strong> <?= esc($product['total_stock']); ?></p>
-                            <p><strong>Total Bagus:</strong> <?= esc($product['good_stock']); ?></p>
-                            <p><strong>Total Rusak Sebagian:</strong> <?= esc($product['partial_damage_stock']); ?></p>
-                            <p><strong>Total Rusak:</strong> <?= esc($product['damaged_stock']); ?></p>
+                                        base_url('uploads/product/' . esc($product['product_image'])); ?>" width="400" style="margin: 10px auto;" alt="Product Image">
                             <p><strong>Sejak:</strong> <?= esc($product['created_at']); ?><?= ' | '; ?><?= esc($sinceCreate); ?> </p>
                             <p><strong>Update:</strong> <?= esc($product['updated_at']); ?><?= ' | '; ?><?= esc($sinceUpdate); ?> </p>
+                        </div>
+                        <div>
+                            <h4><strong><?= esc($product['brand_name']); ?> / <?= esc($product['category_name']); ?></strong></h4>
+                            <p><strong>Harga: </strong>Rp.<?= esc($product['product_price']); ?></p>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label for="product_description" class="col-form-label">Deskripsi Produk:</label>
+                                </div>
+                                <div class="col-sm-20">
+                                    <textarea class="form-control" id="product_description" disabled><?= esc($product['product_description']); ?></textarea>
+                                </div>
+                            </div>
+                            <p><strong>Penempatan Barang:</strong> <?= esc($product['product_placement']); ?></p>
+                            <p><strong>Total Stok:</strong> <?= esc($product['total_stock']); ?></p>
+                            <p><strong>Bagus:</strong> <?= esc($product['good_stock']); ?></p>
+                            <p><strong>Rusak Sebagian:</strong> <?= esc($product['partial_damage_stock']); ?></p>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label for="partial_damage_descriptions" class="col-form-label">Deskripsi Kerusakan:</label>
+                                </div>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="partial_damage_descriptions" disabled><?= esc($partialDamageDescriptions); ?></textarea>
+                                </div>
+                            </div>
+                            <p><strong>Rusak:</strong> <?= esc($product['damaged_stock']); ?></p>
+
                         </div>
                     </div>
                 </div>

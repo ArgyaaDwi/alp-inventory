@@ -211,8 +211,21 @@
                                 <p>Produk</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('admin/area') ?>" class="nav-link">
+                            <i class="nav-icon fas fa-solid fa-warehouse"></i>
+                                <p>Area</p>
+                            </a>
+                        </li>
 
                         <li class="nav-header">Transaksi</li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('admin/transaction') ?>" class="nav-link">
+                                <i class="nav-icon fas fa-ellipsis-h"></i>
+
+                                <p>Transaksi</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="https://adminlte.io/docs/3.1/" class="nav-link">
                                 <i class="nav-icon fas">

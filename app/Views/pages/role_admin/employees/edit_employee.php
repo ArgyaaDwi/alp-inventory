@@ -85,7 +85,7 @@
                         <input type="file" class="form-control" id="employee_image" name="employee_image" placeholder>
                         <img src="<?= base_url('admin/uploads/' . esc($employee['employee_image'])); ?>" width="100" class="mt-2">
                         <small class="form-text text-muted mt-2">
-                            <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal.
+                            <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal dengan maks ukuran 1MB [JPG, JPEG, PNG].
                         </small>
 
                     </div>

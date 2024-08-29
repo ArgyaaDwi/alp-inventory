@@ -16,37 +16,41 @@ $routes->post('/logout', 'Auth::logout');
 // Routes for Admin
 $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->get('/', 'MainController::dashboardAdmin');
-    $routes->get('category', 'CategoryController::index');
-    $routes->get('category/detail/(:num)', 'CategoryController::viewCategory/$1');
+    // Routes for manage category
+    $routes->get('category', 'CategoryController::viewCategory');
+    $routes->get('category/detail/(:num)', 'CategoryController::detailCategory/$1');
     $routes->get('category/create', 'CategoryController::addCategory');
     $routes->post('category/save', 'CategoryController::saveCategory');
     $routes->get('category/edit/(:num)', 'CategoryController::editCategory/$1');
     $routes->post('category/update/(:num)', 'CategoryController::updateCategory/$1');
     $routes->delete('category/delete/(:num)', 'CategoryController::deleteCategory/$1');
-    $routes->get('product', 'ProductController::index');
+    // Routes for manage product
+    $routes->get('product', 'ProductController::viewProduct');
+    $routes->get('product/detail/(:num)', 'ProductController::detailProduct/$1');
     $routes->get('product/create', 'ProductController::addProduct');
-    $routes->get('product/create/stock', 'ProductController::createProductStock');
-
-    $routes->get('product/edit/stock/(:num)', 'ProductController::showEditProductStockForm/$1');
-
-
     $routes->post('product/save', 'ProductController::saveProduct');
-    $routes->post('product/save/stock', 'ProductController::saveProductStock');
-    // $routes->get('uploads/(:any)', 'ProductController::getImage/$1');
-    $routes->get('product/detail/(:num)', 'ProductController::viewProduct/$1');
     $routes->get('product/edit/(:num)', 'ProductController::editProduct/$1');
     $routes->post('product/update/(:num)', 'ProductController::updateProduct/$1');
     $routes->delete('product/delete/(:num)', 'ProductController::deleteProduct/$1');
+    // Routes for manage product stock
+    $routes->get('product/create/stock', 'ProductController::createProductStock');
+    $routes->post('product/save/stock', 'ProductController::saveProductStock');
+    $routes->get('product/edit/stock/(:num)', 'ProductController::showEditProductStockForm/$1');
+    $routes->post('product/update/stock/(:num)', 'ProductController::updateProductStock/$1');
+    // $routes->get('uploads/(:any)', 'ProductController::getImage/$1');
+    // Routes for manage department
     $routes->get('department', 'DepartmentController::index');
     $routes->get('department/detail/(:num)', 'DepartmentController::viewDepartment/$1');
-    $routes->get('department/create', 'DepartmentController::addDepartment');   
+    $routes->get('department/create', 'DepartmentController::addDepartment');
     $routes->post('department/save', 'DepartmentController::saveDepartment');
     $routes->get('department/edit/(:num)', 'DepartmentController::editDepartment/$1');
     $routes->post('department/update/(:num)', 'DepartmentController::updateDepartment/$1');
     $routes->delete('department/delete/(:num)', 'DepartmentController::deleteDepartment/$1');
+    // Routes for manage profile
     $routes->get('profile', 'MainController::viewProfile');
     $routes->get('profile/edit', 'MainController::editProfile');
     $routes->post('profile/update', 'MainController::updateProfile');
+    // Routes for manage employee
     $routes->get('employees', 'EmployeeController::index');
     $routes->get('employees/detail/(:num)', 'EmployeeController::viewEmployee/$1');
     $routes->get('employees/create', 'EmployeeController::addEmployee');
@@ -57,10 +61,24 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->post('employees/update/(:num)', 'EmployeeController::updateEmployee/$1');
     $routes->get('employees/toggle_status/(:num)', 'EmployeeController::statusChanger/$1');
     $routes->delete('employees/delete/(:num)', 'EmployeeController::deleteEmployee/$1');
+
+    
+    $routes->get('transaction', 'TransactionController::loanProduct');
+    // Routes for manage area
+    $routes->get('area', 'AreaController::viewArea');
+    $routes->get('area/detail/(:num)', 'AreaController::detailArea/$1');
+    $routes->get('area/create', 'AreaController::addArea');
+    $routes->post('area/save', 'AreaController::saveArea');
+    
+    $routes->get('area/edit/(:num)', 'AreaController::editArea/$1');
+    $routes->post('area/update/(:num)', 'AreaController::updateArea/$1');
+    $routes->delete('area/delete/(:num)', 'AreaController::deleteArea/$1');
 });
 
 $routes->get('uploads/profile/(:any)', 'MainController::getImage/$1');
 $routes->get('uploads/product/(:any)', 'ProductController::getImage/$1');
+
+$routes->get('product/getStockDetails/(:num)', 'TransactionController::getStockDetails/$1');
 
 // $routes->get('/admin', 'MainController::dashboardAdmin');
 // $routes->get('/user', 'MainController::userPage');

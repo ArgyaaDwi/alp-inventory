@@ -70,6 +70,12 @@
                     </div>
                 </div>
                 <div class="row mb-3">
+                    <label for="product_placement" class="col-sm-2 col-form-label">Penempatan Barang</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="product_placement" name="product_placement" placeholder="Dimana Barang Ditempatkan">
+                    </div>
+                </div>
+                <div class="row mb-3">
                     <label for="price" class="col-sm-2 col-form-label">Harga</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="price" name="product_price" required placeholder="Masukkan Harga Barang">
@@ -80,6 +86,7 @@
                     <label for="product_image" class="col-sm-2 col-form-label">Gambar</label>
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="product_image" name="product_image">
+                        <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal dengan maks ukuran 1MB [JPG, JPEG, PNG].
                     </div>
                 </div>
                 <div class="row mb-3" id="damage-description-container" style="display: none;">

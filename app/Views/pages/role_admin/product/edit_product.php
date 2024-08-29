@@ -77,6 +77,13 @@
                     <div class="col-sm-10">
                         <textarea class="form-control" id="description" name="product_description"><?= esc($product['product_description']); ?></textarea>
                     </div>
+
+                </div>
+                <div class="row mb-3">
+                    <label for="product_placement" class="col-sm-2 col-form-label">Penempatan Barang</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="product_placement" name="product_placement" value="<?= $product['product_placement']; ?>">
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <label for="penerbit" class="col-sm-2 col-form-label">Harga</label>
@@ -89,6 +96,7 @@
                     <div class="col-sm-10">
                         <input type="file" class="form-control" id="product_image" name="product_image">
                         <img src="<?= base_url('uploads/product/' . esc($product['product_image'])); ?>" width="100" class="mt-2">
+                        <i class="fas fa-info-circle"></i> Gunakan gambar rasio 1:1 untuk hasil yang maksimal dengan maks ukuran 1MB [JPG, JPEG, PNG].
 
                     </div>
                 </div>
