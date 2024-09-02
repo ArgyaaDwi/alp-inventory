@@ -14,7 +14,7 @@ class DepartmentController extends BaseController
     {
         $this->departemenModel = new DepartmentModel();
     }
-    public function index()
+    public function viewDepartment()
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -32,7 +32,7 @@ class DepartmentController extends BaseController
         ];
         return view('pages/role_admin/department/department', $data);
     }
-    public function viewDepartment($id)
+    public function detailDepartment($id)
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(

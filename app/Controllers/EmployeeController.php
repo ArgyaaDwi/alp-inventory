@@ -5,19 +5,25 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\EmployeeModel;
+use App\Models\AllocationModel;
 use App\Models\DepartmentModel;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Database\Config;
 
 class EmployeeController extends BaseController
 {
     protected $employeeModel;
+    protected $allocationModel;
     protected $departmentModel;
+    protected $db;
     public function __construct()
     {
         $this->employeeModel = new EmployeeModel();
+        $this->allocationModel = new AllocationModel();
         $this->departmentModel = new DepartmentModel();
+        $this->db = Config::connect();
     }
-    public function index()
+    public function viewEmployee()
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -36,8 +42,10 @@ class EmployeeController extends BaseController
         return view('pages/role_admin/employees/employee', $data);
     }
 
-    public function viewEmployee($id)
+    public function detailEmployee($id)
     {
+        $this->db = Config::connect(); // Tambahkan ini untuk menginisialisasi $this->db
+
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
             $locale,
@@ -47,6 +55,15 @@ class EmployeeController extends BaseController
         );
         $currentDate = $formatter->format(new \DateTime());
         $employee = $this->employeeModel->getEmployeeWithDepartment($id);
+        // $allocatedItems = $this->allocationModel->where('id_employee', $id)->findAll();
+        $allocatedItems = $this->db->table('allocations')
+            ->select('allocations.id AS allocation_id, allocations.quantity, allocations.allocation_date, products.product_name, categories.category_name')
+            ->join('product_stocks', 'allocations.id_product_stock = product_stocks.id')
+            ->join('products', 'product_stocks.id_product = products.id')
+            ->join('categories', 'products.id_category = categories.id')
+            ->where('allocations.id_employee', $id)
+            ->get()
+            ->getResultArray();
         $createdTime = null;
         $sinceCreate = '-';
         $sinceUpdate = '-';
@@ -74,7 +91,8 @@ class EmployeeController extends BaseController
             'currentDate' => $currentDate,
             'employee' => $employee,
             'sinceCreate' => $sinceCreate,
-            'sinceUpdate' => $sinceUpdate
+            'sinceUpdate' => $sinceUpdate,
+            'allocatedItems' => $allocatedItems,
         ];
         return view('pages/role_admin/employees/detail_employee', $data);
     }

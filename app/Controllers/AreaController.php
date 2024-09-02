@@ -6,13 +6,16 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\AreaModel;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Database\Config;
 
 class AreaController extends BaseController
 {
     protected $areaModel;
+    protected $db;
     public function __construct()
     {
         $this->areaModel = new AreaModel();
+        $this->db = Config::connect();
     }
     public function viewArea()
     {
@@ -44,10 +47,18 @@ class AreaController extends BaseController
         );
         $tanggal = new \DateTime();
         $currentDate = $formatter->format($tanggal);
-
+        $allocatedItems = $this->db->table('allocations')
+            ->select('allocations.id AS allocation_id, allocations.quantity, allocations.allocation_date, products.product_name, categories.category_name')
+            ->join('product_stocks', 'allocations.id_product_stock = product_stocks.id')
+            ->join('products', 'product_stocks.id_product = products.id')
+            ->join('categories', 'products.id_category = categories.id')
+            ->where('allocations.id_area', $id)
+            ->get()
+            ->getResultArray();
         $data = [
             'currentDate' => $currentDate,
             'area' => $this->areaModel->find($id),
+            'allocatedItems' => $allocatedItems
         ];
         return view('pages/role_admin/area/detail_area', $data);
     }

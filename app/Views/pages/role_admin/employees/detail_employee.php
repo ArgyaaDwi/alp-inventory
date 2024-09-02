@@ -56,15 +56,45 @@
                                             <br>
                                             <p class="text-muted text-sm"><b>Bergabung Sejak: </b> <?= esc($employee['created_at'] ?? '-'); ?> | <?= esc($sinceCreate ?? '-'); ?> </p>
                                             <p class="text-muted text-sm"><b>Terakhir Diperbarui: </b> <?php if (empty($employee['updated_at'])) : ?> - <?php else : ?> <?= esc($employee['updated_at']); ?> | <?= esc($sinceUpdate); ?> <?php endif; ?></p>
-                                            <a href="<?= base_url() ?>product" class="btn btn-warning"><i class="fa-regular fa-rectangle-list"></i> List Barang Yang Dipinjam</a>
+                                            <a href="<?= base_url() ?>product" class="btn btn-warning disabled"><i class="fa-regular fa-rectangle-list"></i> List Barang Yang Dialokasikan</a>
                                             <br>
                                         </div>
                                         <div class="col-5 text-center">
                                             <img src="<?= base_url('admin/uploads/' . esc($employee['employee_image'])); ?>" alt="user-avatar" class="img-circle img-fluid" width="170">
                                         </div>
+                                        <div class="col-12 mt-2">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">No</th>
+                                                        <th scope="col">Nama Barang</th>
+                                                        <th scope="col">Kategori</th>
+                                                        <th scope="col">Kuantitas</th>
+                                                        <th scope="col">Tanggal Alokasi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php if (!empty($allocatedItems)): ?>
+                                                        <?php $no = 1; ?>
+                                                        <?php foreach ($allocatedItems as $item): ?>
+                                                            <tr>
+                                                                <th scope="row"><?= $no++; ?></th>
+                                                                <td><?= esc($item['product_name']); ?></td>
+                                                                <td><?= esc($item['category_name']); ?></td>
+                                                                <td><?= esc($item['quantity']); ?></td>
+                                                                <td><?= esc($item['allocation_date']); ?></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">Tidak ada barang yang dialokasikan.</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

@@ -22,7 +22,7 @@ class CreateAllocation extends Migration
             ],
             'allocation_type' => [
                 'type'       => 'ENUM',
-                'constraint' => ['person', 'department'],
+                'constraint' => ['person', 'area'],
                 'default'    => 'person',
             ],
             'id_employee' => [
@@ -31,18 +31,19 @@ class CreateAllocation extends Migration
                 'unsigned'   => true,
                 'null'       => true,
             ],
-            'id_department' => [
+            'id_area' => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'unsigned'   => true,
                 'null'       => true,
             ],
+            'quantity' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+            ],
             'allocation_date' => [
                 'type' => 'DATETIME',
-            ],
-            'return_date' => [
-                'type' => 'DATETIME',
-                'null' => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -56,9 +57,11 @@ class CreateAllocation extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_product_stock', 'product_stocks', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_employee', 'employees', 'id', 'SET NULL', 'CASCADE');
-        $this->forge->addForeignKey('id_department', 'departments', 'id', 'SET NULL', 'CASCADE');
+        $this->forge->addForeignKey('id_area', 'areas', 'id', 'SET NULL', 'CASCADE');
         $this->forge->createTable('allocations');
     }
 
-    public function down() {}
+    public function down() {
+        $this->forge->dropTable('allocations');
+    }
 }

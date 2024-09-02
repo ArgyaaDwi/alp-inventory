@@ -69,7 +69,7 @@
                                 <td><span style="margin:0 15px"><?= $e['employee_name'] ?? '-'; ?></span></td>
                                 <td><span style="margin:0 15px"><?= $e['employee_email'] ?? '-'; ?></span></td>
                                 <td><span style="margin:0 15px"><?= $e['department_name'] ?? '-'; ?></span></td>
-                                <td><span style="margin:0 15px">
+                                <td><span style="display: flex; justify-content: center">
                                         <?php if ($e['is_active'] == 1) : ?>
                                             <span class="badge badge-pill badge-success">Aktif</span>
                                         <?php else : ?>

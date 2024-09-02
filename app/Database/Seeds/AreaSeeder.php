@@ -9,7 +9,7 @@ class AreaSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create('id_ID');
-        for ($i = 0; $i <= 9; $i++) {
+        for ($i = 0; $i <= 29; $i++) {
             $data = [
                 'area_name' => $faker->word(),
                 'area_description' => $faker->sentence(),

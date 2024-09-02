@@ -132,7 +132,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="<?= base_url('admin') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fa-solid fa-bars-progress"></i>
                                 <p>
                                     Dashboard
                                 </p>
@@ -213,7 +213,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('admin/area') ?>" class="nav-link">
-                            <i class="nav-icon fas fa-solid fa-warehouse"></i>
+                                <i class="nav-icon fa-solid fa-map-location-dot"></i>
                                 <p>Area</p>
                             </a>
                         </li>
@@ -310,7 +310,7 @@
     </script>
     <script src="https://kit.fontawesome.com/ba7a415507.js" crossorigin="anonymous"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('.nav-link');
             const currentUrl = window.location.href;
@@ -321,7 +321,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
 
 
 </body>

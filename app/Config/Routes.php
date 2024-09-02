@@ -39,8 +39,8 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->post('product/update/stock/(:num)', 'ProductController::updateProductStock/$1');
     // $routes->get('uploads/(:any)', 'ProductController::getImage/$1');
     // Routes for manage department
-    $routes->get('department', 'DepartmentController::index');
-    $routes->get('department/detail/(:num)', 'DepartmentController::viewDepartment/$1');
+    $routes->get('department', 'DepartmentController::viewDepartment');
+    $routes->get('department/detail/(:num)', 'DepartmentController::detailDepartment/$1');
     $routes->get('department/create', 'DepartmentController::addDepartment');
     $routes->post('department/save', 'DepartmentController::saveDepartment');
     $routes->get('department/edit/(:num)', 'DepartmentController::editDepartment/$1');
@@ -51,8 +51,8 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->get('profile/edit', 'MainController::editProfile');
     $routes->post('profile/update', 'MainController::updateProfile');
     // Routes for manage employee
-    $routes->get('employees', 'EmployeeController::index');
-    $routes->get('employees/detail/(:num)', 'EmployeeController::viewEmployee/$1');
+    $routes->get('employees', 'EmployeeController::viewEmployee');
+    $routes->get('employees/detail/(:num)', 'EmployeeController::detailEmployee/$1');
     $routes->get('employees/create', 'EmployeeController::addEmployee');
     $routes->post('employees/save', 'EmployeeController::saveEmployee');
     // $routes->get('uploads/employees/(:any)', 'EmployeeController::getImage/$1');
@@ -63,7 +63,10 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->delete('employees/delete/(:num)', 'EmployeeController::deleteEmployee/$1');
 
     
-    $routes->get('transaction', 'TransactionController::loanProduct');
+    $routes->get('transaction', 'TransactionController::viewAllocation');
+    $routes->get('transaction/create', 'TransactionController::allocateProduct');
+    $routes->post('transaction/save', 'TransactionController::saveAllocation');
+
     // Routes for manage area
     $routes->get('area', 'AreaController::viewArea');
     $routes->get('area/detail/(:num)', 'AreaController::detailArea/$1');

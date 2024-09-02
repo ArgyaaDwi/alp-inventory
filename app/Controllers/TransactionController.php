@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CategoryModel;
 use App\Models\ProductModel;
 use App\Models\StatusModel;
+use App\Models\AllocationModel;
 use App\Models\AreaModel;
 use App\Models\EmployeeModel;
 use App\Models\BrandModel;
@@ -21,6 +22,7 @@ class TransactionController extends BaseController
     protected $employeeModel;
     protected $product_stocksModel;
     protected $areaModel;
+    protected $allocationModel;
     protected $db;
     // Method yang akan otomatis dijalankan ketika sebuah instance dari controller ini dibuat.
     public function __construct()
@@ -32,9 +34,28 @@ class TransactionController extends BaseController
         $this->product_stocksModel = new ProductStockModel();
         $this->employeeModel = new EmployeeModel();
         $this->areaModel = new AreaModel();
+        $this->allocationModel = new AllocationModel();
     }
 
-    public function loanProduct()
+    public function viewAllocation()
+    {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
+
+        $data = [
+            'currentDate' => $currentDate,
+            'allocations' => $this->allocationModel->getAllocations(),
+        ];
+        return view('pages/role_admin/transaction/transaction', $data);
+    }
+    public function allocateProduct()
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -50,43 +71,11 @@ class TransactionController extends BaseController
             $product['stock_details'] = $this->product_stocksModel->getProductWithStockDetails($product['id']);
         }
 
-        $products = $this->productModel->findAll();
         $employees = $this->employeeModel->findAll();
         $statuses = $this->statusModel->findAll();
         $area = $this->areaModel->findAll();
 
-        if ($this->request->getMethod() === 'post') {
-            $productId = $this->request->getPost('id_product');
-            $employeeId = $this->request->getPost('id_employee');
-            $quantity = $this->request->getPost('quantity');
-            $statusBeforeLoan = $this->request->getPost('status_before_loan');
-
-            // Check stock availability in product_stocks
-            $availableStock = $this->product_stocksModel->where('id_product', $productId)
-                ->where('id_status', $statusBeforeLoan)
-                ->first();
-            if ($availableStock && $availableStock['quantity'] >= $quantity) {
-                // Reduce stock in product_stocks
-                $this->product_stocksModel->update($availableStock['id'], [
-                    'quantity' => $availableStock['quantity'] - $quantity,
-                ]);
-
-                // Create loan entry in product_loans
-                $this->product_stocksModel->insert([
-                    'id_product' => $productId,
-                    'id_employee' => $employeeId,
-                    'quantity' => $quantity,
-                    'status_before_loan' => $statusBeforeLoan,
-                    'loan_date' => date('Y-m-d H:i:s'),
-                ]);
-
-                return redirect()->to('/loans')->with('message', 'Produk berhasil dipinjamkan.');
-            } else {
-                return redirect()->back()->with('error', 'Stok tidak mencukupi.');
-            }
-        }
-
-        return view('pages/role_admin/transaction/transaction', [
+        return view('pages/role_admin/transaction/add_transaction', [
             'products' => $products,
             'employees' => $employees,
             'statuses' => $statuses,
@@ -94,6 +83,55 @@ class TransactionController extends BaseController
             'currentDate' => $currentDate
         ]);
     }
+    public function saveAllocation()
+    {
+        $productId = $this->request->getPost('id_product_stock');
+        $employeeId = $this->request->getPost('id_employee');
+        $areaId = $this->request->getPost('id_area');
+        $quantity = $this->request->getPost('quantity');
+        $loanDate = $this->request->getPost('allocation_date');
+        $allocationType = $this->request->getPost('allocation_type');
+        $allocationNote = $this->request->getPost('allocation_note');
+        if ($allocationType == 'person' && empty($employeeId)) {
+            return redirect()->back()->withInput()->with('error', 'ID Karyawan tidak boleh kosong.');
+        } elseif ($allocationType == 'area' && empty($areaId)) {
+            return redirect()->back()->withInput()->with('error', 'ID Area tidak boleh kosong.');
+        }
+        if (empty($productId) || empty($quantity) || empty($loanDate)) {
+            return redirect()->back()->withInput()->with('error', 'Semua field wajib diisi.');
+        }
+        $statusBagus = 1;
+        $availableStock = $this->product_stocksModel->where('id_product', $productId)
+            ->where('id_status', $statusBagus)
+            ->first();
+        if ($availableStock && $availableStock['quantity'] >= $quantity) {
+            $this->product_stocksModel->update($availableStock['id'], [
+                'quantity' => $availableStock['quantity'] - $quantity,
+            ]);
+            $data = [
+                'id_product_stock' => $availableStock['id'],
+                'allocation_type' => $allocationType,
+                'id_employee' => ($allocationType === 'person') ? $employeeId : null,
+                'id_area' => ($allocationType === 'area') ? $areaId : null,
+                'quantity' => $quantity,
+                'allocation_date' => $loanDate,
+                'allocation_note' => $allocationNote,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            
+            // echo 'Data to insert: <br>';
+            // print_r($data);
+            $this->allocationModel->insert($data);
+            session()->setFlashdata('success', "Karyawan <strong style='color: darkgreen;'></strong> berhasil ditambahkan!");
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Stok tidak mencukupi.');
+        }
+        return redirect()->to('admin/transaction');
+    }
+
+
+
     public function getStockDetails($productId)
     {
         // Mengambil rincian stok produk dari model
@@ -110,7 +148,10 @@ class TransactionController extends BaseController
         } else {
             $output = 'Tidak ada rincian stok untuk produk ini.';
         }
-
         return $output;
+    }
+    public function deleteAllocation($id){
+        $this->allocationModel->delete($id);
+        return redirect()->to('admin/transaction');
     }
 }
