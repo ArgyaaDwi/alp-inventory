@@ -54,7 +54,6 @@
         box-shadow: none !important;
     }
 </style>
-
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -69,6 +68,7 @@
                     <span class="nav-link" style="color: black;">
                         <strong>
                             <?= $currentDate ?? 'Unknown Day'; ?>
+                             <!-- Jumat, 06 September 2024 -->
                         </strong>
                     </span>
                 </li>
@@ -200,15 +200,18 @@
                         <li class="nav-item">
                             <a href="<?= base_url('admin/category') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
-
                                 <p>Kategori</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('admin/product') ?>" class="nav-link">
+                            <a href="<?= base_url('admin/brand') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-ellipsis-h"></i>
-
-                                <p>Produk</p>
+                                <p>Brand</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('admin/product') ?>" class="nav-link">
+                            <i class="nav-icon fa-solid fa-computer"></i>                                <p>Produk</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -217,16 +220,14 @@
                                 <p>Area</p>
                             </a>
                         </li>
-
                         <li class="nav-header">Transaksi</li>
                         <li class="nav-item">
                             <a href="<?= base_url('admin/transaction') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-ellipsis-h"></i>
-
+                                <i class="nav-icon fa-solid fa-receipt"></i>
                                 <p>Transaksi</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="https://adminlte.io/docs/3.1/" class="nav-link">
                                 <i class="nav-icon fas">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25.6" height="21" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -254,7 +255,7 @@
                                 <i class="nav-icon fas fa-file"></i>
                                 <p>Laporan</p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -275,10 +276,9 @@
 
 
         <footer class="main-footer">
-            <div class="float-center d-none d-sm-block">
-                <!-- <b>Version</b> 3.2.0 -->
+            <div class="text-center d-none d-sm-block">
+                <strong>Copyright &copy; 2024 <a href="https://alppetro.co.id">ALP Staff IT</a>.</strong> All rights reserved.
             </div>
-            <strong>Copyright &copy; 2024 <a href="https://alppetro.co.id">ALP Staff IT</a>.</strong> All rights reserved.
         </footer>
 
         <!-- Control Sidebar -->
@@ -322,8 +322,6 @@
             });
         });
     </script> -->
-
-
 </body>
 
 </html>

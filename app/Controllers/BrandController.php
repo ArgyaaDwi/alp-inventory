@@ -2,24 +2,24 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\RESTful\ResourceController;
-use App\Models\CategoryModel;
+use App\Models\BrandModel;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Database\Config;
 
-class CategoryController extends ResourceController
+class BrandController extends BaseController
 {
-    protected $kategoriModel;
+    protected $brandModel;
     protected $db;
 
     public function __construct()
     {
-        $this->kategoriModel = new CategoryModel();
+        $this->brandModel = new BrandModel();
         $this->db = Config::connect();
     }
 
-    public function viewCategory()
+    public function viewBrand()
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -33,14 +33,12 @@ class CategoryController extends ResourceController
 
         $data = [
             'currentDate' => $currentDate,
-            'category' => $this->kategoriModel->findAll(),
+            'brand' => $this->brandModel->findAll(),
         ];
-
-
-        return view('pages/role_admin/category/category', $data);
+        return view('pages/role_admin/brand/brand', $data);
     }
-    public function detailCategory($id)
-    {   
+    public function detailBrand($id)
+    {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
             $locale,
@@ -54,17 +52,17 @@ class CategoryController extends ResourceController
             ->select('products.id AS product_id, products.*, categories.category_name, brands.brand_name')
             ->join('categories', 'products.id_category = categories.id')
             ->join('brands', 'products.id_brand = brands.id')
-            ->where('products.id_category', $id)
+            ->where('products.id_brand', $id)
             ->get()
             ->getResultArray();
         $data = [
             'currentDate' => $currentDate,
-            'category' => $this->kategoriModel->find($id),
+            'brand' => $this->brandModel->find($id),
             'allocatedItems' => $allocatedItems
         ];
-        return view('pages/role_admin/category/detail_category', $data);
+        return view('pages/role_admin/brand/detail_brand', $data);
     }
-    public function addCategory()
+    public function addBrand()
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -78,33 +76,31 @@ class CategoryController extends ResourceController
         $data = [
             'currentDate' => $currentDate,
         ];
-        return view('pages/role_admin/category/add_category', $data);
+        return view('pages/role_admin/brand/add_brand', $data);
     }
     // Method saveCategory ini akan menyimpan data category baru
-    public function saveCategory()
+    public function saveBrand()
     {
-        $categoryName = $this->request->getVar('category_name');
+        $brandName = $this->request->getVar('brand_name');
         $rules = [
-            'category_name' => 'required',
-            'category_description' => 'required',
+            'brand_name' => 'required',
         ];
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
         $data = [
-            'category_name' => $this->request->getVar('category_name'),
-            'category_description' => $this->request->getVar('category_description'),
+            'brand_name' => $this->request->getVar('brand_name'),
             'created_at' => Time::now(),
         ];
         try {
-            $this->kategoriModel->save($data);
-            session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$categoryName}</strong> berhasil ditambahkan!");
+            $this->brandModel->save($data);
+            session()->setFlashdata('success', "Brand <strong style='color: darkgreen;'>{$brandName}</strong> berhasil ditambahkan!");
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-        return redirect()->to('/admin/category');
+        return redirect()->to('/admin/brand');
     }
-    public function editCategory($id)
+    public function editBrand($id)
     {
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -117,44 +113,42 @@ class CategoryController extends ResourceController
         $currentDate = $formatter->format($tanggal);
         $data = [
             'currentDate' => $currentDate,
-            'category' =>  $this->kategoriModel->find($id),
+            'brand' =>  $this->brandModel->find($id),
 
         ];
-        return view('pages/role_admin/category/edit_category', $data);
+        return view('pages/role_admin/brand/edit_brand', $data);
     }
-    public function updateCategory($id)
+    public function updateBrand($id)
     {
         $rules = [
-            'category_name' => 'required',
-            'category_description' => 'required',
+            'brand_name' => 'required',
         ];
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
         $data = [
-            'category_name' => $this->request->getVar('category_name'),
-            'category_description' => $this->request->getVar('category_description'),
+            'brand_name' => $this->request->getVar('brand_name'),
             'updated_at' => Time::now(),
         ];
         try {
-            $this->kategoriModel->update($id, $data);
+            $this->brandModel->update($id, $data);
             session()->setFlashdata('success', "Data berhasil diubah!");
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-        return redirect()->to('/admin/category');
+        return redirect()->to('/admin/brand');
     }
 
-    public function deleteCategory($id)
+    public function deleteBrand($id)
     {
-        $category = $this->kategoriModel->find($id);
-        if ($category) {
-            $categoryName = $category['category_name'];
-            $this->kategoriModel->delete($id);
-            session()->setFlashdata('success', "Kategori <strong style='color: darkgreen;'>{$categoryName}</strong> berhasil dihapus!");
+        $brand = $this->brandModel->find($id);
+        if ($brand) {
+            $brandName = $brand['brand_name'];
+            $this->brandModel->delete($id);
+            session()->setFlashdata('success', "Brand <strong style='color: darkgreen;'>{$brandName}</strong> berhasil dihapus!");
         } else {
-            session()->setFlashdata('error', "Kategori tidak ditemukan.");
+            session()->setFlashdata('error', "Brand tidak ditemukan.");
         }
-        return redirect()->to('/admin/category');
+        return redirect()->to('/admin/brand');
     }
 }

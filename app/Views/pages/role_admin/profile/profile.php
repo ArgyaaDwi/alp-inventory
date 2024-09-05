@@ -42,9 +42,9 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">My Profile</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">History</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">UnDone</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">My Profile</a></li> -->
+                            <!-- <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">History</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">UnDone</a></li> -->
                         </ul>
                     </div>
                     <div class="card-body">
@@ -95,10 +95,11 @@
                                                         $employee_address = session()->get('employee_address');
                                                         $employee_phone = session()->get('employee_phone');
                                                         if (empty($id_department) || empty($employee_position) || empty($employee_badge) || empty($employee_address) || empty($employee_phone)) {
-                                                            echo '<a href="<a href="' . base_url('admin/profile/edit') . '" class="btn btn-sm btn-warning"><i class="fa-solid fa-list-check"></i> Lengkapi Data</a>';
+                                                            echo '<a href="' . base_url('admin/profile/edit') . '" class="btn btn-sm btn-warning"><i class="fa-solid fa-list-check"></i> Lengkapi Data</a>';
                                                         } else {
                                                             echo '<a href="' . base_url('admin/profile/edit') . '" class="btn btn-sm btn-primary"><i class="fa-regular fa-pen-to-square"></i> Perbarui Data</a>';
                                                         }
+
                                                         ?>
                                                     </div>
                                                 </div>

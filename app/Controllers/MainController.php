@@ -6,6 +6,7 @@ use App\Models\CategoryModel;
 use App\Models\ProductModel;
 use App\Models\EmployeeModel;
 use App\Models\DepartmentModel;
+use App\Models\AreaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\I18n\Time;
@@ -15,6 +16,7 @@ class MainController extends ResourceController
     protected $employeeModel;
     protected $kategoriModel;
     protected $productModel;
+    protected $areaModel;
     protected $departmentModel;
     public function __construct()
     {
@@ -22,6 +24,7 @@ class MainController extends ResourceController
         $this->productModel = new ProductModel();
         $this->employeeModel = new EmployeeModel();
         $this->departmentModel = new DepartmentModel();
+        $this->areaModel = new AreaModel();
     }
 
     public function dashboardAdmin()
@@ -40,6 +43,9 @@ class MainController extends ResourceController
         $data = [
             'currentDate' => $currentDate,
             'categoryCount' => $this->kategoriModel->countAllResults(),
+            'productCount' => $this->productModel->countAllResults(),
+            'employeeCount' => $this->employeeModel->countAllResults(),
+            'areaCount' => $this->areaModel->countAllResults(),
             // 'productCount' => $this->productModel->countAllResults()
         ];
 
@@ -49,25 +55,7 @@ class MainController extends ResourceController
     {
         return view('pages/role_user/dashboard');
     }
-    // public function viewProfile()
-    // {
-    //     $locale = 'id_ID';
-    //     $formatter = new \IntlDateFormatter(
-    //         $locale,
-    //         \IntlDateFormatter::FULL,
-    //         \IntlDateFormatter::NONE,
-    //         'Asia/Jakarta'
-    //     );
-    //     $tanggal = new \DateTime();
-    //     $currentDate = $formatter->format($tanggal);
-    //     $userId = session()->get('employee_id');
-    //     $user = $this->employeeModel->getEmployeeWithDepartment($userId);
-    //     $data = [
-    //         'user' => $user,
-    //         'currentDate' => $currentDate
-    //     ];
-    //     return view('pages/user/profile', $data);
-    // }
+
     public function viewProfile()
     {
         $locale = 'id_ID';

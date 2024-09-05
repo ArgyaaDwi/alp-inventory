@@ -6,13 +6,16 @@ use App\Controllers\BaseController;
 use App\Models\DepartmentModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Database\Config;
 
 class DepartmentController extends BaseController
 {
     protected $departemenModel;
+    protected $db;
     public function __construct()
     {
         $this->departemenModel = new DepartmentModel();
+        $this->db = Config::connect();
     }
     public function viewDepartment()
     {
@@ -43,11 +46,17 @@ class DepartmentController extends BaseController
         );
         $tanggal = new \DateTime();
         $currentDate = $formatter->format($tanggal);
+        $employeesByDepartment = $this->db->table('employees')
+            ->select('employees.id AS employee_id, employees.*, departments.department_name')
+            ->join('departments', 'employees.id_department = departments.id')
+            ->where('employees.id_department', $id)
+            ->get()
+            ->getResultArray();
         $data = [
             'currentDate' => $currentDate,
             'department' => $this->departemenModel->find($id),
+            'employeesByDepartment' => $employeesByDepartment
         ];
-
         return view('pages/role_admin/department/detail_department', $data);
     }
 

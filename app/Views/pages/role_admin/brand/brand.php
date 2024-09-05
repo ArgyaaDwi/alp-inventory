@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><b>Halaman Kategori</b></h1>
+                    <h1><b>Halaman Brand</b></h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
-                        <li class="breadcrumb-item"><span>Kategori</span></li>
+                        <li class="breadcrumb-item"><span>Brand</span></li>
                     </ol>
                 </div>
             </div>
@@ -27,7 +27,7 @@
     <section class="content">
         <div class="card mx-2">
             <div class="card-header">
-                <a href="<?= base_url('admin/category/create') ?>" class="btn" style="background-color: #00008B; color: white"><i class="fa-solid fa-plus"></i> Tambah Kategori</a>
+                <a href="<?= base_url('admin/brand/create') ?>" class="btn" style="background-color: #00008B; color: white"><i class="fa-solid fa-plus"></i> Tambah Brand</a>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>
@@ -39,47 +39,45 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>ID Kategori</th>
-                            <th><span style="margin:0 15px">Nama Kategori</span></th>
+                            <th>ID Brand</th>
+                            <th><span style="margin:0 15px">Nama Brand</span></th>
                             <th><span style="margin:0 15px">Aksi</span> </th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no = 1; ?>
-                        <?php if (!empty($category)) : ?>
-                            <?php foreach ($category as $c) : ?>
+                        <?php if (!empty($brand)) : ?>
+                            <?php foreach ($brand as $b) : ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
-                                    <td><span style="margin:0 15px"><?= $c['id']; ?></span></td>
-                                    <td><span style="margin:0 15px"><?= $c['category_name']; ?></span></td>
-
+                                    <td><span style="margin:0 15px"><?= $b['id']; ?></span></td>
+                                    <td><span style="margin:0 15px"><?= $b['brand_name']; ?></span></td>
                                     <td>
                                         <div class="d-flex gap-1" style="margin: 10px 15px">
-                                            <a href="<?= base_url('admin/category/detail/' . $c['id']); ?>" class="btn btn-outline-info">
+                                            <a href="<?= base_url('admin/brand/detail/' . $b['id']); ?>" class="btn btn-outline-info">
                                                 <i class="fa-regular fa-eye"></i> </a>
                                             </a>
-                                            <a href="<?= base_url('admin/category/edit/' . $c['id']); ?>" class="btn btn-outline-warning">
+                                            <a href="<?= base_url('admin/brand/edit/' . $b['id']); ?>" class="btn btn-outline-warning">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
-
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $c['id']; ?>">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $b['id']; ?>">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
-                                            <div class="modal fade" id="deleteModal<?= $c['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel<?= $c['id']; ?>" aria-hidden="true">
+                                            <div class="modal fade" id="deleteModal<?= $b['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel<?= $b['id']; ?>" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="deleteModalLabel<?= $c['id']; ?>">Konfirmasi Hapus</h5>
+                                                            <h5 class="modal-title" id="deleteModalLabel<?= $b['id']; ?>">Konfirmasi Hapus</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Apakah Anda yakin ingin menghapus <span style="color: red; font-weight: bold;"><?= $c['category_name']; ?></span> dari data kategori?
+                                                            Apakah Anda yakin ingin menghapus <span style="color: red; font-weight: bold;"><?= $b['brand_name']; ?></span> dari data Brand?
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Batal</button>
-                                                            <form action="<?= base_url('admin/category/delete/' . $c['id']); ?>" method="post" style="display:inline;">
+                                                            <form action="<?= base_url('admin/brand/delete/' . $b['id']); ?>" method="post" style="display:inline;">
                                                                 <?= csrf_field() ?>
                                                                 <input type="hidden" name="_method" value="DELETE">
                                                                 <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>

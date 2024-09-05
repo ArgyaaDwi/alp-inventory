@@ -45,6 +45,10 @@ class CreateAllocation extends Migration
             'allocation_date' => [
                 'type' => 'DATETIME',
             ],
+            'created_by' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
             ],

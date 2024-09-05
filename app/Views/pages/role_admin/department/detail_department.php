@@ -24,7 +24,7 @@ use CodeIgniter\I18n\Time; ?>
 <section class="content">
 
     <!-- Default box -->
-    <div class="card">
+    <div class="card mx-2">
         <div class="card-header">
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -35,13 +35,46 @@ use CodeIgniter\I18n\Time; ?>
         <div class="card-body">
             <div class="container-fluid">
                 <div class="card">
-                    <div class="card-body" style="display: flex; align-items: flex-start;">
-
+                    <div class="card-body" style="">
                         <div>
                             <h3><?= esc($department['department_name']); ?></h3>
-                            <p><strong>Deskripsi Kategori:</strong> <?= esc($department['department_description']); ?></p>
-                            <p><strong>Dibuat Pada:</strong> <?= esc($department['created_at']); ?></p>
-                            <p><strong>Diupdate Pada:</strong> <?= esc($department['updated_at']); ?></p>
+                            <p><strong>Deskripsi Departemen:</strong> <?= esc($department['department_description']); ?></p>
+                            <!-- <p><strong>Dibuat Pada:</strong> <?= esc($department['created_at']); ?></p>
+                            <p><strong>Diupdate Pada:</strong> <?= esc($department['updated_at']); ?></p> -->
+                            <a href="<?= base_url() ?>product" class="btn btn-warning disabled"><i class="fa-regular fa-rectangle-list"></i> List Karyawan Departemen <?= esc($department['department_name']); ?></a>
+                            <div class="mt-2 table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">ID Karyawan</th>
+                                            <th scope="col">Badge</th>
+                                            <th scope="col">Nama Karyawan</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Telephone</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($employeesByDepartment)): ?>
+                                            <?php $no = 1; ?>
+                                            <?php foreach ($employeesByDepartment as $item): ?>
+                                                <tr>
+                                                    <th scope="row"><?= $no++; ?></th>
+                                                    <td><?= esc($item['id']); ?></td>
+                                                    <td><?= esc($item['employee_badge']); ?></td>
+                                                    <td><?= esc($item['employee_name']); ?></td>
+                                                    <td><?= esc($item['employee_email']); ?></td>
+                                                    <td><?= esc($item['employee_phone']); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="6" class="text-center">Tidak ada karyawan di departemen ini.</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

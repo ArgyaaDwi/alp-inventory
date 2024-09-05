@@ -24,6 +24,14 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->get('category/edit/(:num)', 'CategoryController::editCategory/$1');
     $routes->post('category/update/(:num)', 'CategoryController::updateCategory/$1');
     $routes->delete('category/delete/(:num)', 'CategoryController::deleteCategory/$1');
+    // Routes for manage brand
+    $routes->get('brand', 'BrandController::viewBrand');
+    $routes->get('brand/detail/(:num)', 'BrandController::detailBrand/$1');
+    $routes->get('brand/create', 'BrandController::addBrand');
+    $routes->post('brand/save', 'BrandController::saveBrand');
+    $routes->get('brand/edit/(:num)', 'BrandController::editBrand/$1');
+    $routes->post('brand/update/(:num)', 'BrandController::updateBrand/$1');
+    $routes->delete('brand/delete/(:num)', 'BrandController::deleteBrand/$1');
     // Routes for manage product
     $routes->get('product', 'ProductController::viewProduct');
     $routes->get('product/detail/(:num)', 'ProductController::detailProduct/$1');
@@ -61,30 +69,27 @@ $routes->group('admin', ['filter' => 'role:1'], function ($routes) {
     $routes->post('employees/update/(:num)', 'EmployeeController::updateEmployee/$1');
     $routes->get('employees/toggle_status/(:num)', 'EmployeeController::statusChanger/$1');
     $routes->delete('employees/delete/(:num)', 'EmployeeController::deleteEmployee/$1');
-
-    
+    // Routes for manage transaction
     $routes->get('transaction', 'TransactionController::viewAllocation');
     $routes->get('transaction/create', 'TransactionController::allocateProduct');
     $routes->post('transaction/save', 'TransactionController::saveAllocation');
-
+    $routes->get('transaction/detail/(:num)', 'TransactionController::detailAllocation/$1');
     // Routes for manage area
     $routes->get('area', 'AreaController::viewArea');
     $routes->get('area/detail/(:num)', 'AreaController::detailArea/$1');
     $routes->get('area/create', 'AreaController::addArea');
     $routes->post('area/save', 'AreaController::saveArea');
-    
     $routes->get('area/edit/(:num)', 'AreaController::editArea/$1');
     $routes->post('area/update/(:num)', 'AreaController::updateArea/$1');
     $routes->delete('area/delete/(:num)', 'AreaController::deleteArea/$1');
 });
+$routes->get('admin/transaction/pdf', 'TransactionController::generateAllocationPdf');
+$routes->get('admin/transaction/pdf/detail/(:num)', 'TransactionController::generateDetailAllocationPDF/$1');
 
 $routes->get('uploads/profile/(:any)', 'MainController::getImage/$1');
 $routes->get('uploads/product/(:any)', 'ProductController::getImage/$1');
-
 $routes->get('product/getStockDetails/(:num)', 'TransactionController::getStockDetails/$1');
 
-// $routes->get('/admin', 'MainController::dashboardAdmin');
-// $routes->get('/user', 'MainController::userPage');
 $routes->group('user', ['filter' => 'role:2'], function ($routes) {
     $routes->get('/user', 'MainController::userPage');
 });

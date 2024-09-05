@@ -10,14 +10,14 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
                     <li class="breadcrumb-item"><a href="<?= base_url('admin/transaction') ?>" style="text-color: black">Transaksi</a></li>
-                    <li class="breadcrumb-item"><span>Alokasi Barang</span></li>
+                    <li class="breadcrumb-item"><span>Alokasi Barang </span></li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
 <section class="content">
-    <div class="card">
+    <div class="card mx-2">
         <div class="card-header">
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

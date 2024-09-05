@@ -1,17 +1,16 @@
 <?= $this->extend('layouts/template'); ?>
 <?= $this->section('content'); ?>
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1><b>Form Edit Area</b></h1>
+                <h1><b>Form Edit Brand</b></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url('admin/area') ?>" style="text-color: black">Area</a></li>
-                    <li class="breadcrumb-item"><span>Edit Area <?= esc($area['area_name']); ?></span></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/brand') ?>" style="text-color: black">Brand</a></li>
+                    <li class="breadcrumb-item">Edit Brand <?= esc($brand['brand_name']); ?></li>
                 </ol>
             </div>
         </div>
@@ -27,26 +26,20 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="<?= base_url('admin/area/update/' .  $area['id'] ) ?>" method="POST">
+            <form action="<?= base_url('admin/brand/update/' . $brand['id']);?>" method="POST">
                 <?= csrf_field(); ?>
                 <div class="row mb-3">
-                    <label for="area_name" class="col-sm-2 col-form-label">Nama Area</label>
+                    <label for="brand_name" class="col-sm-2 col-form-label">Nama Brand</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="area_name" name="area_name" value="<?= esc($area['area_name']); ?>">
+                        <input type="text" class="form-control" id="brand_name" name="brand_name" value="<?= $brand['brand_name']; ?>">
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="area_description" class="col-sm-2 col-form-label">Deskripsi</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" id="area_description" name="area_description" ><?= esc($area['area_description']); ?></textarea>
-                    </div>
-                </div>
-                <a href="<?= base_url('admin/area') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                <a href="<?= base_url('admin/brand') ?>" class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
                 <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
             </form>
         </div>
         <div class="card-footer">
-            PT. ALP Petro Industry
+            PT.ALP Petro Industry
         </div>
     </div>
 </section>

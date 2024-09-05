@@ -34,7 +34,7 @@
 <section class="content">
     <!-- Default box -->
     <!-- /.card -->
-    <div class="row">
+    <div class="row mx-1">
         <div class="col-lg-3 col-6">
             <!-- small card -->
             <div class="small-box bg-info">
@@ -55,11 +55,11 @@
             <!-- small card -->
             <div class="small-box bg-primary">
                 <div class="inner">
-                    <h3>1</h3>
+                    <h3><?= $productCount; ?></h3>
                     <p>Produk</p>
                 </div>
                 <div class="icon">
-                    <i class="nav-icon fas fa-ellipsis-h"></i>
+                    <i class="fa-solid fa-computer"></i>
                 </div>
                 <a href="<?= base_url('admin/product') ?>" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
@@ -71,13 +71,13 @@
             <!-- small card -->
             <div class="small-box" style="background-color: #4169E1;">
                 <div class="inner">
-                    <h3 class="text-white">44</h3>
-                    <p class="text-white">Barang Masuk</p>
+                    <h3 class="text-white"><?= $areaCount; ?></h3>
+                    <p class="text-white">Area</p>
                 </div>
                 <div class="icon">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <i class="nav-icon fa-solid fa-map-location-dot"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="<?= base_url('admin/area') ?>" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -87,23 +87,23 @@
             <!-- small card -->
             <div class="small-box" style="background-color: #4682B4;">
                 <div class="inner">
-                    <h3 class="text-white">65</h3>
-                    <p class="text-white">Barang Keluar</p>
+                    <h3 class="text-white"><?= $employeeCount; ?></h3>
+                    <p class="text-white">Karyawan</p>
                 </div>
                 <div class="icon">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <i class="nav-icon fa-regular fa-user"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="<?= base_url('admin/employees') ?>" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
     </div>
-    <div class="card">
+    <div class="card mx-2">
         <div class="card-header">
             <h3 class="card-title">Barang terbaru</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <table id="example2" class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -168,14 +168,10 @@
                         <td> Alat</td>
                         <td><button type="button" class="btn btn-block btn-outline-info btn-sm">Info</button> </td>
                     </tr>
-
-
                     </tfoot>
             </table>
         </div>
-        <!-- /.card-body -->
     </div>
-    <!-- /.card -->
 </section>
 
 <?= $this->endSection() ?>

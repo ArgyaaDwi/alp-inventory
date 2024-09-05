@@ -17,7 +17,7 @@
     </div>
 </section>
 <section class="content">
-    <div class="card">
+    <div class="card mx-2">
         <div class="card-header">
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -35,7 +35,7 @@
                             <p><strong>Dibuat Pada:</strong> <?= esc($category['created_at']); ?></p>
                             <p><strong>Diupdate Pada:</strong> <?= esc($category['updated_at']); ?></p>
                             <a href="<?= base_url() ?>product" class="btn btn-warning disabled"><i class="fa-regular fa-rectangle-list"></i> List Barang Kategori <?= esc($category['category_name']); ?></a>
-                            <div class="mt-2">
+                            <div class="mt-2 table-responsive">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
