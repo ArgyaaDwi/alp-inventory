@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Database\Seeds;
-
 use CodeIgniter\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -19,7 +18,6 @@ class UserSeeder extends Seeder
                 'id_department' => $faker->numberBetween(1, 9),
                 'created_at' => \CodeIgniter\I18n\Time::now(),
             ];
-
             $this->db->table('users')->insert($data);
         }
     }

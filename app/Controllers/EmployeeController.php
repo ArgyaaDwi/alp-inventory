@@ -44,7 +44,7 @@ class EmployeeController extends BaseController
 
     public function detailEmployee($id)
     {
-        $this->db = Config::connect(); // Tambahkan ini untuk menginisialisasi $this->db
+        $this->db = Config::connect();
 
         $locale = 'id_ID';
         $formatter = new \IntlDateFormatter(
@@ -55,7 +55,6 @@ class EmployeeController extends BaseController
         );
         $currentDate = $formatter->format(new \DateTime());
         $employee = $this->employeeModel->getEmployeeWithDepartment($id);
-        // $allocatedItems = $this->allocationModel->where('id_employee', $id)->findAll();
         $allocatedItems = $this->db->table('allocations')
             ->select('allocations.id AS allocation_id, allocations.quantity, allocations.allocation_date, products.product_name, categories.category_name')
             ->join('product_stocks', 'allocations.id_product_stock = product_stocks.id')
@@ -115,16 +114,6 @@ class EmployeeController extends BaseController
             return 'Beberapa detik yang lalu';
         }
     }
-    // public function getImage($filename)
-    // {
-    //     $path = WRITEPATH . 'uploads/' . $filename;
-
-    //     if (file_exists($path)) {
-    //         return $this->response->download($path, null, true);
-    //     }
-
-    //     throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' not found');
-    // }
     public function getImage($filename)
     {
         $path = WRITEPATH . 'uploads/' . $filename;

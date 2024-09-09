@@ -60,7 +60,6 @@
                                         <a href="<?= base_url('admin/area/edit/' . $a['id']); ?>" class="btn btn-outline-warning">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
-
                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $a['id']; ?>">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

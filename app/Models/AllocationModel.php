@@ -46,9 +46,12 @@ class AllocationModel extends Model
     }
     public function getAllAllocators()
     {
-        return $this->select('allocations.*, employees.id as allocators_id, employees.employee_name as allocators_name')
-            ->join('employees as allocators', 'allocators.id  = allocations.created_by', 'left')
-        
+        return $this->select('allocations.*, recipient.employee_name as recipient_name, allocator.employee_name as allocator_name, allocator.id as allocator_id, areas.area_name, products.product_name')
+            ->join('employees as recipient', 'recipient.id = allocations.id_employee', 'left')
+            ->join('employees as allocator', 'allocator.id = allocations.created_by', 'left')
+            ->join('areas', 'areas.id = allocations.id_area', 'left')
+            ->join('product_stocks', 'product_stocks.id = allocations.id_product_stock', 'left')
+            ->join('products', 'products.id = product_stocks.id_product', 'left')
             ->findAll();
     }
 

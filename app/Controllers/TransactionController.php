@@ -57,33 +57,34 @@ class TransactionController extends BaseController
     //     ];
     //     return view('pages/role_admin/transaction/transaction', $data);
     // }
-        public function viewAllocation()
-        {
-            $locale = 'id_ID';
-            $formatter = new \IntlDateFormatter(
-                $locale,
-                \IntlDateFormatter::FULL,
-                \IntlDateFormatter::NONE,
-                'Asia/Jakarta'
-            );
-            $tanggal = new \DateTime();
-            $currentDate = $formatter->format($tanggal);
-            // Ambil input filter dari request
-            $allocatorId = $this->request->getVar('allocator_id');
-            $month = $this->request->getVar('month');
-            $year = $this->request->getVar('year');
-            // Ambil alokasi dengan filter
-            $allocations = $this->allocationModel->getFilteredAllocations($allocatorId, $month, $year);
-            // Ambil daftar pengalokasi (anda bisa mengganti getAllocations jika perlu)
-            $allocators = $this->allocationModel->getAllAllocators(); // Pastikan metode ini ada jika diperlukan
-            $data = [
-                'currentDate' => $currentDate,
-                'allocations' => $allocations,
-                'allocators' => $allocators,
-    0        ];
+    public function viewAllocation()
+    {
+        $locale = 'id_ID';
+        $formatter = new \IntlDateFormatter(
+            $locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Asia/Jakarta'
+        );
+        $tanggal = new \DateTime();
+        $currentDate = $formatter->format($tanggal);
+        // Ambil input filter dari request
+        $allocatorId = $this->request->getVar('allocator_id');
+        $month = $this->request->getVar('month');
+        $year = $this->request->getVar('year');
+        // Ambil alokasi dengan filter
+        $allocations = $this->allocationModel->getFilteredAllocations($allocatorId, $month, $year);
+        // Ambil daftar pengalokasi (anda bisa mengganti getAllocations jika perlu)
+        // $allocators = $this->allocationModel->getAllAllocators(); // Pastikan metode ini ada jika diperlukan
+        $data = [
+            'currentDate' => $currentDate,
+            'allocations' => $allocations,
+            // 'allocators' => $allocators,
+            
+        ];
 
-            return view('pages/role_admin/transaction/transaction', $data);
-        }
+        return view('pages/role_admin/transaction/transaction', $data);
+    }
 
 
     public function generateAllocationPdf()

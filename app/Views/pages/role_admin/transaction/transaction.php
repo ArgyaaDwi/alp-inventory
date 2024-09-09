@@ -45,9 +45,18 @@
                     <label for="allocator" class="mr-2">Pengalokasi:</label>
                     <select name="allocator_id" id="allocator" class="form-control">
                         <option value="">Semua Pengalokasi</option>
-                        <?php foreach ($allocators as $allocator): ?>
-                            <option value="<?= $allocator['allocators_id']; ?>"><?= $allocator['allocators_name']; ?></option>
-                        <?php endforeach; ?>
+                        <?php
+                        $unique_allocators = array_unique(array_column($allocations, 'allocator_name'));
+                        foreach ($allocations as $allocator):
+                            if (in_array($allocator['allocator_name'], $unique_allocators)):
+                        ?>
+                                <option value="<?= $allocator['allocator_id']; ?>"><?= $allocator['allocator_name']; ?></option>
+                        <?php
+                                $unique_allocators = array_diff($unique_allocators, [$allocator['allocator_name']]);
+                            endif;
+                        endforeach;
+                        ?>
+
                     </select>
                 </div>
                 <!-- <div class="form-group mr-2">
