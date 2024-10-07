@@ -143,7 +143,6 @@ class TransactionController extends BaseController
     {
         $createdBy = session()->get('employee_id');
         // $emailBy = session()->get('employee_email');
-
         $productId = $this->request->getPost('id_product_stock');
         $employeeId = $this->request->getPost('id_employee');
         $areaId = $this->request->getPost('id_area');

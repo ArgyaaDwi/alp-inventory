@@ -78,7 +78,6 @@
                                     <div class="d-flex gap-1" style="margin: 10px 15px">
                                         <a href="<?= base_url('admin/employees/detail/' . $e['id']); ?>" class="btn btn-outline-info">
                                             <i class="fa-regular fa-eye"></i> </a>
-
                                         </a>
                                         <a href="<?= base_url('admin/employees/edit/' . $e['id']); ?>" class="btn btn-outline-warning">
                                             <i class="fa-regular fa-pen-to-square"></i>

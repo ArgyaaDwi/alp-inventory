@@ -149,7 +149,6 @@
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log('Response:', xhr.responseText);
-
                         document.getElementById('product_stock').innerHTML = xhr.responseText;
                     }
                 };

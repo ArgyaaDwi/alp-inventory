@@ -17,7 +17,6 @@
         </div>
     </div>
 </section>
-
 <section class="content">
     <div class="card mx-2">
         <div class="card-header">
@@ -62,7 +61,7 @@
                                         <div class="col-5 text-center">
                                             <img src="<?= base_url('admin/uploads/' . esc($employee['employee_image'])); ?>" alt="user-avatar" class="img-circle img-fluid" width="170">
                                         </div>
-                                        <div class="col-12 mt-2">
+                                        <div class="col-12 mt-2 table-responsive">
                                             <table class="table table-striped">
                                                 <thead>
                                                     <tr>

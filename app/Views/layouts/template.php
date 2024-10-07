@@ -54,6 +54,7 @@
         box-shadow: none !important;
     }
 </style>
+
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -68,7 +69,7 @@
                     <span class="nav-link" style="color: black;">
                         <strong>
                             <?= $currentDate ?? 'Unknown Day'; ?>
-                             <!-- Jumat, 06 September 2024 -->
+                            <!-- Jumat, 06 September 2024 -->
                         </strong>
                     </span>
                 </li>
@@ -78,8 +79,8 @@
                 <!-- Navbar Search -->
                 <li class="nav-item dropdown user-menu">
                     <a href="" class="nav-link bg-white dropdown-toggle " data-toggle="dropdown" style="background-color: #ffffff; ">
+                        <span class="d-none d-md-inline mr-2"><?= session()->get('employee_name'); ?></span>
                         <img src="<?= base_url('uploads/profile/' . session()->get('employee_image')) ?>" class="user-image img-circle elevation-2" alt="User Image">
-                        <span class="d-none d-md-inline"><?= session()->get('employee_name'); ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
@@ -90,8 +91,6 @@
                                 <small><?= session()->get('employee_email'); ?></small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
-                        <!-- Menu Footer-->
                         <li class="user-footer">
                             <a href="<?= base_url('admin/profile') ?>" class="btn btn-outline-info  rounded btn-flat ">Profil</a>
                             <form action="<?= base_url('logout'); ?>" method="post" style="display: inline;">
@@ -104,7 +103,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
+                        <!-- <i class="fas fa-expand-arrows-alt"></i> -->
                     </a>
                 </li>
             </ul>
@@ -211,7 +210,8 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('admin/product') ?>" class="nav-link">
-                            <i class="nav-icon fa-solid fa-computer"></i>                                <p>Produk</p>
+                                <i class="nav-icon fa-solid fa-computer"></i>
+                                <p>Produk</p>
                             </a>
                         </li>
                         <li class="nav-item">

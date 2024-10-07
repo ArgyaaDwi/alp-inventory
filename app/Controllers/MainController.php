@@ -36,10 +36,8 @@ class MainController extends ResourceController
             \IntlDateFormatter::NONE,
             'Asia/Jakarta'
         );
-
         $tanggal = new \DateTime();
         $currentDate = $formatter->format($tanggal);
-
         $data = [
             'currentDate' => $currentDate,
             'categoryCount' => $this->kategoriModel->countAllResults(),

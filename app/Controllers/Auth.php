@@ -32,7 +32,7 @@ class Auth extends BaseController
             'password' => 'required|min_length[6]',
             'confirm_password' => 'required|matches[password]',
         ];
-
+        
         if (!$this->validate($rules)) {
             $errors = $this->validator->getErrors();
             log_message('error', 'Validation errors: ' . print_r($errors, true));

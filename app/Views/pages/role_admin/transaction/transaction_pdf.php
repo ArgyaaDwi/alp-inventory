@@ -1,4 +1,4 @@
-<table class="stripe responsive">
+<table  border="1" cellspacing="0" cellpadding="5" width="100%" class="stripe responsive">
     <thead>
         <tr>
             <th>No.</th>

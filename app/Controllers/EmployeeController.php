@@ -171,7 +171,7 @@ class EmployeeController extends BaseController
             log_message('error', 'Validation errors: ' . print_r($errors, true));
             return redirect()->back()->withInput()->with('errors', $errors);
         }
-
+        
         $image = $this->request->getFile('employee_image');
         $imageName = $image->getRandomName();
         $image->move(WRITEPATH . 'uploads/', $imageName);
@@ -182,7 +182,7 @@ class EmployeeController extends BaseController
             'employee_address' => $this->request->getPost('employee_address'),
             'employee_position' => $this->request->getPost('employee_position'),
             'employee_email' => $this->request->getPost('employee_email'),
-            'employee_phone' => $this->request->getPost('employee_phone'),
+            'employee_phone' => $this->request->getPost('emplo yee_phone'),
             'employee_image' => $imageName,
             'id_department' => $this->request->getPost('id_department'),
             'id_role' => 2,
